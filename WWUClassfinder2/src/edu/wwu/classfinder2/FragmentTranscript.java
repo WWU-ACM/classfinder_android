@@ -24,6 +24,10 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -51,7 +55,6 @@ public class FragmentTranscript extends Fragment {
 	}
 
 	class LoginTask extends AsyncTask<String, Integer, String> {
-
 		String charset = "UTF-8";
 
 		@Override
@@ -75,10 +78,10 @@ public class FragmentTranscript extends Fragment {
 				for (Element e : hidden) {
 					post_params.put(e.attr("name"), e.attr("value"));
 				}
-				
+
 				Element jid = doc.select("form#login_form").first();
 				String jsessionid = jid.attr("action");
-				
+
 				URL url = new URL(url_login + jsessionid + "?service=https://mywestern.wwu.edu/mywestern/Login");
 				HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 				conn.setDoOutput(true);
@@ -136,11 +139,9 @@ public class FragmentTranscript extends Fragment {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 
 		});
-
 		return view;
 	}
 
