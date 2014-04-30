@@ -13,10 +13,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -45,28 +52,64 @@ public class FragmentTranscript extends Fragment {
 
 	class LoginTask extends AsyncTask<String, Integer, String> {
 
+		String charset = "UTF-8";
+
 		@Override
 		protected String doInBackground(String... params) {
 
-			try {				
-				Document doc = Jsoup.connect(params[0]).get();
-				// <!-- The following hidden fields must be part of the submitted Form -->
-				Elements hidden = doc.select("input[type=hidden]");
-				
-				URL url = new URL(params[0]);
-				HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-				conn.setRequestMethod("POST");
-				conn.setConnectTimeout(5000);
-				conn.setReadTimeout(5000);
-				conn.setDoOutput(true);
-				conn.setDoInput(true);
-				
-				OutputStream out = conn.getOutputStream();
-				
+			/* Ensure that we are given 3 parameters - URL, username, password */
+			if (params.length != 3) {
 				return null;
+			}
+
+			String url_login = params[0];
+			Map<String, String> post_params = new HashMap<String, String>();
+
+			try {
+				/* Get the hidden values that must be part of the POST request */
+				Document doc = Jsoup.connect(url_login).get();
+				Elements hidden = doc.select("input[type=hidden]");
+				post_params = new HashMap<String, String>();
+				post_params.put("username", params[1]);
+				post_params.put("password", params[2]);
+				for (Element e : hidden) {
+					post_params.put(e.attr("name"), e.attr("value"));
+				}
+				
+				Element jid = doc.select("form#login_form").first();
+				String jsessionid = jid.attr("action");
+				
+				URL url = new URL(url_login + jsessionid + "?service=https://mywestern.wwu.edu/mywestern/Login");
+				HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+				conn.setDoOutput(true);
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				conn.setRequestProperty("Host", "websso.wwu.edu");
+				conn.setRequestProperty("Accept", "application/xhtml+xml, */*");
+				conn.setRequestProperty("Cookie", jsessionid);
+
+				OutputStream out = conn.getOutputStream();
+				out.write(formatPost(post_params));
+				out.close();
+
+				String resp = IOUtils.toString(conn.getInputStream());
+				return conn.getHeaderFields().toString() + "\n\n\n\n" + resp;
 			} catch (IOException e) {
+				e.printStackTrace();
 				return "Something went wrong";
 			}
+		}
+
+		private byte[] formatPost(Map<String, String> post_params) throws UnsupportedEncodingException {
+			String post_string = "";
+			for (Entry<String, String> e : post_params.entrySet()) {
+				post_string += URLEncoder.encode(e.getKey(), charset) + '=' + URLEncoder.encode(e.getValue(), charset)
+						+ '&';
+			}
+			if (post_params.size() > 0) {
+				post_string = post_string.substring(0, post_string.length() - 1);
+			}
+			return post_string.getBytes(charset);
 		}
 	}
 
@@ -102,9 +145,9 @@ public class FragmentTranscript extends Fragment {
 	}
 
 	private String login(String username, String password) throws Exception {
-		URL url = new URL("https://websso.wwu.edu/cas/login");
+		String wwu = "https://websso.wwu.edu/cas/";
 		LoginTask lt = new LoginTask();
-		lt.execute("https://websso.wwu.edu/cas/login");
+		lt.execute(wwu, username, password);
 		return lt.get();
 	}
 
