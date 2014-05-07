@@ -28,7 +28,7 @@ public class TranscriptFragment
                              Bundle savedInstanceState) {
         if (container == null)
             return null;
-        return inflater.inflate(R.layout.fragment_load_transcript,
+        return inflater.inflate(R.layout.load_transcript,
                                 container,
                                 false);
     }

@@ -18,7 +18,7 @@ public class MainSearchFragment extends ListFragment{
         if (container == null)
             return null;
 
-        View rootView = inflater.inflate(R.layout.fragment_search_main,
+        View rootView = inflater.inflate(R.layout.search_main,
                                          container,
                                          false);
 
