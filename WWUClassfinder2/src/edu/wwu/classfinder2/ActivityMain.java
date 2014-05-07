@@ -1,13 +1,10 @@
 package edu.wwu.classfinder2;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
-import org.jsoup.Jsoup;
+import android.os.Bundle;
 
 public class ActivityMain extends Activity {
 
@@ -15,5 +12,13 @@ public class ActivityMain extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        TranscriptFragment transcriptFrag = new TranscriptFragment();
+        ft.add(R.id.fragment_container, transcriptFrag);
+        ft.commit();
     }
+
 }
