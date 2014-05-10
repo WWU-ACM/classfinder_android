@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="drawer_menu">
+    <string-array name="drawer_menu_titles">
         <item>Transcript</item>
         <item>Search Courses</item>
         <item>Course Planner</item>
         <item>Calendar</item>
+    </string-array>
+    
+    <string-array name="drawer_menu_icons">
+        <item>@drawable/placeholder_menu_icon</item>
+        <item>@drawable/placeholder_menu_icon</item>
+        <item>@drawable/placeholder_menu_icon</item>
+        <item>@drawable/placeholder_menu_icon</item>
     </string-array>
 
 </resources>
