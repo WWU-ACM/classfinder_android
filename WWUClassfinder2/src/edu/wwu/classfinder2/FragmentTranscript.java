@@ -15,7 +15,7 @@ import android.webkit.WebViewClient;
 
 import android.widget.Toast;
 
-public class TranscriptFragment
+public class FragmentTranscript
     extends Fragment
     implements ValueCallback<String> {
 
@@ -28,7 +28,7 @@ public class TranscriptFragment
                              Bundle savedInstanceState) {
         if (container == null)
             return null;
-        return inflater.inflate(R.layout.load_transcript,
+        return inflater.inflate(R.layout.fragment_transcript,
                                 container,
                                 false);
     }
