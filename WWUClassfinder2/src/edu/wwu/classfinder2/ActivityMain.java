@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 public class ActivityMain extends Activity {
 
+	private String mTitle;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -32,6 +33,7 @@ public class ActivityMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		mTitle = getTitle().toString();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_menu);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
@@ -40,6 +42,11 @@ public class ActivityMain extends Activity {
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				getActionBar().setTitle(R.string.app_name);
+			}
+			@Override
+			public void onDrawerClosed(View drawerView){
+				super.onDrawerClosed(drawerView);
+				getActionBar().setTitle(mTitle);
 			}
 		};
 
@@ -50,15 +57,16 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		
+
 		// Open the drawer on startup
-		if (savedInstanceState == null || !savedInstanceState.getBoolean("ConfigChange")){
+		if (savedInstanceState == null || !savedInstanceState.getBoolean("ConfigChange")) {
 			mDrawerLayout.openDrawer(mDrawerList);
+			getFragmentManager().beginTransaction().add(R.id.drawer_content, new FragmentStart()).commit();
 		}
-		
+
 		// Reset title on configuration change
-		if (savedInstanceState != null && savedInstanceState.getString("ActionBarTitle") != null){
-			getActionBar().setTitle(savedInstanceState.getString("ActionBarTitle"));
+		if (savedInstanceState != null && savedInstanceState.getString("ActionBarTitle") != null) {
+			setTitle(savedInstanceState.getString("ActionBarTitle"));
 		}
 	}
 
@@ -82,6 +90,12 @@ public class ActivityMain extends Activity {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title.toString();
+        getActionBar().setTitle(mTitle);
+    }
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -148,19 +162,19 @@ public class ActivityMain extends Activity {
 			switch (position) {
 			case 0:
 				fragment = new FragmentTranscript();
-				getActionBar().setTitle("Transcript");
+				setTitle("Transcript");
 				break;
 			case 1:
 				fragment = new FragmentSearch();
-				getActionBar().setTitle("Course Search");
+				setTitle("Course Search");
 				break;
 			case 2:
 				fragment = new FragmentPlanner();
-				getActionBar().setTitle("Course Planner");
+				setTitle("Course Planner");
 				break;
 			case 3:
 				fragment = new Fragment();
-				getActionBar().setTitle("Calendar");
+				setTitle("Calendar");
 				break;
 			default:
 				fragment = null;
@@ -175,47 +189,54 @@ public class ActivityMain extends Activity {
 		}
 	}
 
-//	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//		private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH", "FRAG_PLANNER", "FRAG_CALENDAR" };
-//
-//		public DrawerItemClickListener() {
-//
-//			FragmentManager fm = getFragmentManager();
-//
-//			for (int i = 0; i < TAG.length; i++) {
-//				if (fm.findFragmentByTag(TAG[i]) == null) {
-//					if (TAG[i] == TAG[0]) {
-//						fm.beginTransaction().add(R.id.drawer_content, new FragmentTranscript(), TAG[i]).commit();
-//					} else if (TAG[i] == TAG[1]) {
-//						fm.beginTransaction().add(R.id.drawer_content, new FragmentSearch(), TAG[i]).commit();
-//					} else if (TAG[i] == TAG[2]) {
-//						fm.beginTransaction().add(R.id.drawer_content, new FragmentPlanner(), TAG[i]).commit();
-//					} else if (TAG[i] == TAG[3]) {
-//						fm.beginTransaction().add(R.id.drawer_content, new Fragment(), TAG[i]).commit();
-//					}
-//					fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-//				}
-//			}
-//		}
-//
-//		// Swaps fragments in the main content view
-//		@Override
-//		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//			FragmentManager fm = getFragmentManager();
-//			for (int i = 0; i < TAG.length; i++) {
-//				fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-//			}
-//			fm.beginTransaction().show(findFragment(TAG[position])).commit();
-//
-//			mDrawerList.setItemChecked(position, true);
-//			mDrawerLayout.closeDrawer(mDrawerList);
-//		}
-//
-//		private Fragment findFragment(String tag) {
-//			FragmentManager fm = getFragmentManager();
-//			return fm.findFragmentByTag(tag);
-//		}
-//	}
+	// private class DrawerItemClickListener implements
+	// ListView.OnItemClickListener {
+	//
+	// private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH",
+	// "FRAG_PLANNER", "FRAG_CALENDAR" };
+	//
+	// public DrawerItemClickListener() {
+	//
+	// FragmentManager fm = getFragmentManager();
+	//
+	// for (int i = 0; i < TAG.length; i++) {
+	// if (fm.findFragmentByTag(TAG[i]) == null) {
+	// if (TAG[i] == TAG[0]) {
+	// fm.beginTransaction().add(R.id.drawer_content, new FragmentTranscript(),
+	// TAG[i]).commit();
+	// } else if (TAG[i] == TAG[1]) {
+	// fm.beginTransaction().add(R.id.drawer_content, new FragmentSearch(),
+	// TAG[i]).commit();
+	// } else if (TAG[i] == TAG[2]) {
+	// fm.beginTransaction().add(R.id.drawer_content, new FragmentPlanner(),
+	// TAG[i]).commit();
+	// } else if (TAG[i] == TAG[3]) {
+	// fm.beginTransaction().add(R.id.drawer_content, new Fragment(),
+	// TAG[i]).commit();
+	// }
+	// fm.beginTransaction().hide(findFragment(TAG[i])).commit();
+	// }
+	// }
+	// }
+	//
+	// // Swaps fragments in the main content view
+	// @Override
+	// public void onItemClick(AdapterView<?> parent, View view, int position,
+	// long id) {
+	//
+	// FragmentManager fm = getFragmentManager();
+	// for (int i = 0; i < TAG.length; i++) {
+	// fm.beginTransaction().hide(findFragment(TAG[i])).commit();
+	// }
+	// fm.beginTransaction().show(findFragment(TAG[position])).commit();
+	//
+	// mDrawerList.setItemChecked(position, true);
+	// mDrawerLayout.closeDrawer(mDrawerList);
+	// }
+	//
+	// private Fragment findFragment(String tag) {
+	// FragmentManager fm = getFragmentManager();
+	// return fm.findFragmentByTag(tag);
+	// }
+	// }
 }
