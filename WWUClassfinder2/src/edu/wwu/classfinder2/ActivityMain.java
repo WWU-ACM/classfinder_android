@@ -50,7 +50,7 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		Log.d("HI", "KLSDJFLSKDFJL:SKDFJS:LDFJ");
+		Log.d("HI", "FINISHED ONCREATE");
 	}
 
 	@Override
@@ -130,52 +130,82 @@ public class ActivityMain extends Activity {
 	}
 
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-		private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH", "FRAG_PLANNER", "FRAG_CALENDAR" };
-
-		public DrawerItemClickListener() {
-
-			FragmentManager fm = getFragmentManager();
-
-			for (int i = 0; i < TAG.length; i++) {
-				if (fm.findFragmentByTag(TAG[i]) == null) {
-					fm.beginTransaction().add(R.id.drawer_content, getFragment(TAG[i]), TAG[i]).commit();
-					fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-				}
-			}
-		}
-
 		/* Swaps fragments in the main content view */
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Fragment fragment;
+
+			switch (position) {
+			case 0:
+				fragment = new FragmentTranscript();
+				getActionBar().setTitle("Transcript");
+				break;
+			case 1:
+				fragment = new FragmentSearch();
+				getActionBar().setTitle("Course Search");
+				break;
+			case 2:
+				fragment = new FragmentPlanner();
+				getActionBar().setTitle("Course Planner");
+				break;
+			case 3:
+				fragment = new Fragment();
+				getActionBar().setTitle("Calendar");
+				break;
+			default:
+				fragment = null;
+				break;
+			}
 
 			FragmentManager fm = getFragmentManager();
-			for (int i = 0; i < TAG.length; i++){
-				fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-			}
-			fm.beginTransaction().show(findFragment(TAG[position])).commit();
+			fm.beginTransaction().replace(R.id.drawer_content, fragment).commit();
 
 			mDrawerList.setItemChecked(position, true);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
-
-		private Fragment findFragment(String tag) {
-			FragmentManager fm = getFragmentManager();
-			return fm.findFragmentByTag(tag);
-		}
-
-		private Fragment getFragment(String tag) {
-			if (tag == TAG[0]) {
-				return new FragmentTranscript();
-			} else if (tag == TAG[1]) {
-				return new FragmentSearch();
-			} else if (tag == TAG[2]) {
-				return new FragmentPlanner();
-			} else if (tag == TAG[3]) {
-				return new Fragment();
-			} else {
-				return null;
-			}
-		}
 	}
+
+//	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+//
+//		private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH", "FRAG_PLANNER", "FRAG_CALENDAR" };
+//
+//		public DrawerItemClickListener() {
+//
+//			FragmentManager fm = getFragmentManager();
+//
+//			for (int i = 0; i < TAG.length; i++) {
+//				if (fm.findFragmentByTag(TAG[i]) == null) {
+//					if (TAG[i] == TAG[0]) {
+//						fm.beginTransaction().add(R.id.drawer_content, new FragmentTranscript(), TAG[i]).commit();
+//					} else if (TAG[i] == TAG[1]) {
+//						fm.beginTransaction().add(R.id.drawer_content, new FragmentSearch(), TAG[i]).commit();
+//					} else if (TAG[i] == TAG[2]) {
+//						fm.beginTransaction().add(R.id.drawer_content, new FragmentPlanner(), TAG[i]).commit();
+//					} else if (TAG[i] == TAG[3]) {
+//						fm.beginTransaction().add(R.id.drawer_content, new Fragment(), TAG[i]).commit();
+//					}
+//					fm.beginTransaction().hide(findFragment(TAG[i])).commit();
+//				}
+//			}
+//		}
+//
+//		// Swaps fragments in the main content view
+//		@Override
+//		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//			FragmentManager fm = getFragmentManager();
+//			for (int i = 0; i < TAG.length; i++) {
+//				fm.beginTransaction().hide(findFragment(TAG[i])).commit();
+//			}
+//			fm.beginTransaction().show(findFragment(TAG[position])).commit();
+//
+//			mDrawerList.setItemChecked(position, true);
+//			mDrawerLayout.closeDrawer(mDrawerList);
+//		}
+//
+//		private Fragment findFragment(String tag) {
+//			FragmentManager fm = getFragmentManager();
+//			return fm.findFragmentByTag(tag);
+//		}
+//	}
 }
