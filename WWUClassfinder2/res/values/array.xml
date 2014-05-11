@@ -3,7 +3,7 @@
 
     <string-array name="drawer_menu_titles">
         <item>Transcript</item>
-        <item>Search Courses</item>
+        <item>Course Search</item>
         <item>Course Planner</item>
         <item>Calendar</item>
     </string-array>

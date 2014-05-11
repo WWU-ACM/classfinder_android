@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
 
-public class MainSearchFragment extends ListFragment{
+public class FragmentSearch extends ListFragment{
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -18,7 +18,7 @@ public class MainSearchFragment extends ListFragment{
         if (container == null)
             return null;
 
-        View rootView = inflater.inflate(R.layout.search_main,
+        View rootView = inflater.inflate(R.layout.fragment_search,
                                          container,
                                          false);
 
