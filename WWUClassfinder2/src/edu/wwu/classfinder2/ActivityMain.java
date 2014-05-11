@@ -49,11 +49,8 @@ public class ActivityMain extends Activity {
 
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
-		
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		Log.d("HI", "KLSDJFLSKDFJL:SKDFJS:LDFJ");
-		
-		
 	}
 
 	@Override
