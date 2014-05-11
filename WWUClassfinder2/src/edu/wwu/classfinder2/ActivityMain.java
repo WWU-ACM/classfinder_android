@@ -50,12 +50,22 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		Log.d("HI", "FINISHED ONCREATE");
+		
+		// Open the drawer on startup
+		if (savedInstanceState == null || !savedInstanceState.getBoolean("ConfigChange")){
+			mDrawerLayout.openDrawer(mDrawerList);
+		}
+		
+		// Reset title on configuration change
+		if (savedInstanceState != null && savedInstanceState.getString("ActionBarTitle") != null){
+			getActionBar().setTitle(savedInstanceState.getString("ActionBarTitle"));
+		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean("ConfigChange", true);
+		outState.putString("ActionBarTitle", getActionBar().getTitle().toString());
 		super.onSaveInstanceState(outState);
 	}
 
