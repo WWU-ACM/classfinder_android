@@ -21,7 +21,7 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 	@Override
 	public void onDestroyView() {
 		final ActionBar actionBar = getActivity().getActionBar();
+		actionBar.removeAllTabs();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-
 		super.onDestroyView();
 	}
 
@@ -77,9 +77,9 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return new Fragment();
+				return new FragmentPlannerPlan();
 			case 1:
-				return new Fragment();
+				return new FragmentPlannerPlan();
 			}
 			return null;
 		}

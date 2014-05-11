@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,12 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean("ConfigChange", true);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -122,35 +129,36 @@ public class ActivityMain extends Activity {
 	}
 
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+		Fragment[] mFragmentList;
+
+		private final static String FS = "FR";
+
+		public DrawerItemClickListener() {
+
+			FragmentManager fm = getFragmentManager();
+
+			mFragmentList = new Fragment[4];
+			mFragmentList[0] = new FragmentTranscript();
+			mFragmentList[1] = new FragmentSearch();
+			mFragmentList[2] = new FragmentPlanner();
+			mFragmentList[3] = new Fragment();
+
+			for (int i = 0; i < mFragmentList.length; i++) {
+				fm.beginTransaction().add(R.id.drawer_content, mFragmentList[i]).commit();
+				fm.beginTransaction().hide(mFragmentList[i]).commit();
+			}
+		}
+
 		/* Swaps fragments in the main content view */
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Fragment fragment;
-
-			switch (position) {
-			case 0:
-				fragment = new FragmentTranscript();
-				getActionBar().setTitle("Transcript");
-				break;
-			case 1:
-				fragment = new FragmentSearch();
-				getActionBar().setTitle("Course Search");
-				break;
-			case 2:
-				fragment = new FragmentPlanner();
-				getActionBar().setTitle("Course Planner");
-				break;
-			case 3:
-				fragment = new Fragment();
-				getActionBar().setTitle("Calendar");
-				break;
-			default:
-				fragment = null;
-				break;
-			}
 
 			FragmentManager fm = getFragmentManager();
-			fm.beginTransaction().replace(R.id.drawer_content, fragment).commit();
+			for (int i = 0; i < mFragmentList.length; i++) {
+				fm.beginTransaction().hide(mFragmentList[i]).commit();
+			}
+			fm.beginTransaction().show(mFragmentList[position]).commit();
 
 			mDrawerList.setItemChecked(position, true);
 			mDrawerLayout.closeDrawer(mDrawerList);
