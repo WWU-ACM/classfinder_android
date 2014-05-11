@@ -43,15 +43,24 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			mActionBar.addTab(mActionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
+
 		return view;
 	}
 
 	@Override
 	public void onDestroyView() {
-		final ActionBar actionBar = getActivity().getActionBar();
-		actionBar.removeAllTabs();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		mActionBar.removeAllTabs();
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		super.onDestroyView();
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		if (hidden) {
+			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		} else {
+			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		}
 	}
 
 	@Override

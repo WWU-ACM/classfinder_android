@@ -49,7 +49,11 @@ public class ActivityMain extends Activity {
 
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
+		
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		Log.d("HI", "KLSDJFLSKDFJL:SKDFJS:LDFJ");
+		
+		
 	}
 
 	@Override
@@ -130,23 +134,17 @@ public class ActivityMain extends Activity {
 
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
-		Fragment[] mFragmentList;
-
-		private final static String FS = "FR";
+		private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH", "FRAG_PLANNER", "FRAG_CALENDAR" };
 
 		public DrawerItemClickListener() {
 
 			FragmentManager fm = getFragmentManager();
 
-			mFragmentList = new Fragment[4];
-			mFragmentList[0] = new FragmentTranscript();
-			mFragmentList[1] = new FragmentSearch();
-			mFragmentList[2] = new FragmentPlanner();
-			mFragmentList[3] = new Fragment();
-
-			for (int i = 0; i < mFragmentList.length; i++) {
-				fm.beginTransaction().add(R.id.drawer_content, mFragmentList[i]).commit();
-				fm.beginTransaction().hide(mFragmentList[i]).commit();
+			for (int i = 0; i < TAG.length; i++) {
+				if (fm.findFragmentByTag(TAG[i]) == null) {
+					fm.beginTransaction().add(R.id.drawer_content, getFragment(TAG[i]), TAG[i]).commit();
+					fm.beginTransaction().hide(findFragment(TAG[i])).commit();
+				}
 			}
 		}
 
@@ -155,13 +153,32 @@ public class ActivityMain extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 			FragmentManager fm = getFragmentManager();
-			for (int i = 0; i < mFragmentList.length; i++) {
-				fm.beginTransaction().hide(mFragmentList[i]).commit();
+			for (int i = 0; i < TAG.length; i++){
+				fm.beginTransaction().hide(findFragment(TAG[i])).commit();
 			}
-			fm.beginTransaction().show(mFragmentList[position]).commit();
+			fm.beginTransaction().show(findFragment(TAG[position])).commit();
 
 			mDrawerList.setItemChecked(position, true);
 			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+
+		private Fragment findFragment(String tag) {
+			FragmentManager fm = getFragmentManager();
+			return fm.findFragmentByTag(tag);
+		}
+
+		private Fragment getFragment(String tag) {
+			if (tag == TAG[0]) {
+				return new FragmentTranscript();
+			} else if (tag == TAG[1]) {
+				return new FragmentSearch();
+			} else if (tag == TAG[2]) {
+				return new FragmentPlanner();
+			} else if (tag == TAG[3]) {
+				return new Fragment();
+			} else {
+				return null;
+			}
 		}
 	}
 }
