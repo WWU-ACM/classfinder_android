@@ -19,17 +19,13 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 	ActionBar mActionBar;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_planner, null);
 
 		mActionBar = getActivity().getActionBar();
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 		mViewPager = (ViewPager) view.findViewById(R.id.fragment_planner_pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -54,14 +50,15 @@ public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
 		super.onDestroyView();
 	}
 
-	@Override
-	public void onHiddenChanged(boolean hidden) {
-		if (hidden) {
-			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		} else {
-			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		}
-	}
+	// Was used for testing out persistent fragments
+	// @Override
+	// public void onHiddenChanged(boolean hidden) {
+	// if (hidden) {
+	// mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+	// } else {
+	// mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	// }
+	// }
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
