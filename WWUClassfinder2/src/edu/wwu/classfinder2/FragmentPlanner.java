@@ -5,106 +5,77 @@ import android.app.ActionBar.Tab;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentPlanner extends Fragment implements ActionBar.TabListener {
+public class FragmentPlanner extends Fragment implements FragmentPlannerList.OnItemSelectedListener {
 
-	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	ActionBar mActionBar;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		FragmentManager fm = getChildFragmentManager();
 		View view = inflater.inflate(R.layout.fragment_planner, null);
 
-		mActionBar = getActivity().getActionBar();
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+		// Don't do anything if we're being restored from a previous state
+		if (savedInstanceState != null) {
+			return view;
+		}
 
-		mViewPager = (ViewPager) view.findViewById(R.id.fragment_planner_pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				mActionBar.setSelectedNavigationItem(position);
-			}
-		});
-
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			mActionBar.addTab(mActionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
+		// We we are using the single pane view, add our list fragment
+		if (view.findViewById(R.id.fragment_planner_single) != null) {
+			FragmentPlannerList fpl = new FragmentPlannerList();
+			fpl.setTargetFragment(this, 0);
+			fm.beginTransaction().add(R.id.fragment_planner_single, fpl, "PlannerList").commit();
+		}
+		// Otherwise we are in dual-view, add both fragments to the list
+		else {
+			FragmentPlannerList fpl = new FragmentPlannerList();
+			FragmentPlannerPlan fpp = new FragmentPlannerPlan();
+			fpl.setTargetFragment(this, 0);
+			fm.beginTransaction().add(R.id.fragment_planner_list, fpl, "PlannerList").commit();
+			fm.beginTransaction().add(R.id.fragment_planner_plan, fpp).commit();
 		}
 
 		return view;
 	}
-
+	
 	@Override
-	public void onDestroyView() {
-		mActionBar.removeAllTabs();
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		super.onDestroyView();
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true); // i can haz menu?
 	}
-
-	// Was used for testing out persistent fragments
-	// @Override
-	// public void onHiddenChanged(boolean hidden) {
-	// if (hidden) {
-	// mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-	// } else {
-	// mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	// }
-	// }
-
+	
 	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		mViewPager.setCurrentItem(tab.getPosition());
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.fragment_planner_list, menu);
 	}
 
 	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add:
+			FragmentPlannerList fpl = (FragmentPlannerList) getChildFragmentManager().findFragmentByTag("PlannerList");
+			fpl.addItem("");
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	public void onItemSelected(int id) {
+
 	}
-
-	private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-			case 0:
-				return new FragmentPlannerPlan();
-			case 1:
-				return new FragmentPlannerPlan();
-			}
-			return null;
-		}
-
-		@Override
-		public int getCount() {
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case 0:
-				return "FRAGMENT 1";
-			case 1:
-				return "FRAGMENT 2";
-			}
-			return null;
-		}
-	}
-
 }

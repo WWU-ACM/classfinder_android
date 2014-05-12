@@ -36,7 +36,7 @@ public class ActivityMain extends Activity {
 		mTitle = getTitle().toString();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_menu);
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.drawer_navigation,
 				R.string.drawer_open, R.string.drawer_close) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
@@ -57,22 +57,21 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-		// Open the drawer on startup
-		if (savedInstanceState == null || !savedInstanceState.getBoolean("ConfigChange")) {
-			mDrawerLayout.openDrawer(mDrawerList);
-			getFragmentManager().beginTransaction().add(R.id.drawer_content, new FragmentStart()).commit();
-		}
-
+		
 		// Reset title on configuration change
 		if (savedInstanceState != null && savedInstanceState.getString("ActionBarTitle") != null) {
 			setTitle(savedInstanceState.getString("ActionBarTitle"));
+		}
+
+		// Open the drawer on startup
+		if (savedInstanceState == null) {
+			mDrawerLayout.openDrawer(mDrawerList);
+			getFragmentManager().beginTransaction().add(R.id.drawer_content, new FragmentStart()).commit();
 		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("ConfigChange", true);
 		outState.putString("ActionBarTitle", getActionBar().getTitle().toString());
 		super.onSaveInstanceState(outState);
 	}
@@ -162,19 +161,19 @@ public class ActivityMain extends Activity {
 			switch (position) {
 			case 0:
 				fragment = new FragmentTranscript();
-				setTitle("Transcript");
+				setTitle(getResources().getStringArray(R.array.drawer_menu_titles)[0]);
 				break;
 			case 1:
 				fragment = new FragmentSearch();
-				setTitle("Course Search");
+				setTitle(getResources().getStringArray(R.array.drawer_menu_titles)[1]);
 				break;
 			case 2:
 				fragment = new FragmentPlanner();
-				setTitle("Course Planner");
+				setTitle(getResources().getStringArray(R.array.drawer_menu_titles)[2]);
 				break;
 			case 3:
 				fragment = new Fragment();
-				setTitle("Calendar");
+				setTitle(getResources().getStringArray(R.array.drawer_menu_titles)[3]);
 				break;
 			default:
 				fragment = null;
@@ -188,55 +187,4 @@ public class ActivityMain extends Activity {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 	}
-
-	// private class DrawerItemClickListener implements
-	// ListView.OnItemClickListener {
-	//
-	// private final String[] TAG = { "FRAG_TRANSCRIPT", "FRAG_SEARCH",
-	// "FRAG_PLANNER", "FRAG_CALENDAR" };
-	//
-	// public DrawerItemClickListener() {
-	//
-	// FragmentManager fm = getFragmentManager();
-	//
-	// for (int i = 0; i < TAG.length; i++) {
-	// if (fm.findFragmentByTag(TAG[i]) == null) {
-	// if (TAG[i] == TAG[0]) {
-	// fm.beginTransaction().add(R.id.drawer_content, new FragmentTranscript(),
-	// TAG[i]).commit();
-	// } else if (TAG[i] == TAG[1]) {
-	// fm.beginTransaction().add(R.id.drawer_content, new FragmentSearch(),
-	// TAG[i]).commit();
-	// } else if (TAG[i] == TAG[2]) {
-	// fm.beginTransaction().add(R.id.drawer_content, new FragmentPlanner(),
-	// TAG[i]).commit();
-	// } else if (TAG[i] == TAG[3]) {
-	// fm.beginTransaction().add(R.id.drawer_content, new Fragment(),
-	// TAG[i]).commit();
-	// }
-	// fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-	// }
-	// }
-	// }
-	//
-	// // Swaps fragments in the main content view
-	// @Override
-	// public void onItemClick(AdapterView<?> parent, View view, int position,
-	// long id) {
-	//
-	// FragmentManager fm = getFragmentManager();
-	// for (int i = 0; i < TAG.length; i++) {
-	// fm.beginTransaction().hide(findFragment(TAG[i])).commit();
-	// }
-	// fm.beginTransaction().show(findFragment(TAG[position])).commit();
-	//
-	// mDrawerList.setItemChecked(position, true);
-	// mDrawerLayout.closeDrawer(mDrawerList);
-	// }
-	//
-	// private Fragment findFragment(String tag) {
-	// FragmentManager fm = getFragmentManager();
-	// return fm.findFragmentByTag(tag);
-	// }
-	// }
 }
