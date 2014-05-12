@@ -50,7 +50,7 @@
     </service>
 
     <service
-        android:name="edu.wwu.classfinder2.sync.CourseSyncService"
+        android:name="edu.wwu.classfinder2.data.sync.CourseSyncService"
         android:exported="true"
         android:process=":sync">
         <intent-filter>
