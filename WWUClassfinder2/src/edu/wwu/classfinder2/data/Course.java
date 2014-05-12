@@ -31,16 +31,16 @@ public class Course {
     public ContentValues asContentValues() {
         ContentValues values = new ContentValues();
 
-        values.put(ID_KEY, mId);
-        values.put(CRN_KEY, mCrn);
-        values.put(DEPARTMENT_KEY, mDepartment);
-        values.put(COURSENUMBER_KEY, mCourseNumber);
-        values.put(NAME_KEY, mName);
-        values.put(INSTRUCTOR_KEY, mInstructor);
-        values.put(SCHEDULE_KEY, mSchedule);
-        values.put(CAPACITY_KEY, mCapacity);
-        values.put(ENROLLED_KEY, mEnrolled);
-        values.put(CREDITS_KEY, mCredits);
+        values.put(_ID, mId);
+        values.put(CRN, mCrn);
+        values.put(DEPARTMENT, mDepartment);
+        values.put(COURSENUMBER, mCourseNumber);
+        values.put(NAME, mName);
+        values.put(INSTRUCTOR, mInstructor);
+        values.put(SCHEDULE, mSchedule);
+        values.put(CAPACITY, mCapacity);
+        values.put(ENROLLED, mEnrolled);
+        values.put(CREDITS, mCredits);
         return values;
     }
 
@@ -126,14 +126,14 @@ public class Course {
     }
 
     // Database keys for this class
-    public static final String ID_KEY           = "_id";
-    public static final String CRN_KEY          = "_crn";
-    public static final String DEPARTMENT_KEY   = "_department";
-    public static final String COURSENUMBER_KEY = "_coursenumber";
-    public static final String NAME_KEY         = "_name";
-    public static final String INSTRUCTOR_KEY   = "_instructor";
-    public static final String SCHEDULE_KEY     = "_schedule";
-    public static final String CAPACITY_KEY     = "_capacity";
-    public static final String ENROLLED_KEY     = "_enrolled";
-    public static final String CREDITS_KEY      = "_credits";
+    public static final String _ID          = "_id";
+    public static final String CRN          = "_crn";
+    public static final String DEPARTMENT   = "_department";
+    public static final String COURSENUMBER = "_coursenumber";
+    public static final String NAME         = "_name";
+    public static final String INSTRUCTOR   = "_instructor";
+    public static final String SCHEDULE     = "_schedule";
+    public static final String CAPACITY     = "_capacity";
+    public static final String ENROLLED     = "_enrolled";
+    public static final String CREDITS      = "_credits";
 }
