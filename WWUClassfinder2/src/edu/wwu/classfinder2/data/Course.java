@@ -1,5 +1,7 @@
 package edu.wwu.classfinder2.data;
 
+import edu.wwu.classfinder2.provider.CourseContract;
+
 import android.content.ContentValues;
 
 public class Course {
