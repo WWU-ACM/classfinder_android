@@ -125,6 +125,9 @@ public class Course {
         this.mCredits = mCredits;
     }
 
+    public static final String CONTENT_URI  =
+        "content://classfinder/courses";
+
     // Database keys for this class
     public static final String _ID          = "_id";
     public static final String CRN          = "_crn";
