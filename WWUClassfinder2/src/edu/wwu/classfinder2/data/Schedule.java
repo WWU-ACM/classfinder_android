@@ -14,6 +14,13 @@ public class Schedule {
         this.mMeetings = meetings;
     }
 
+    public Schedule fromString(String schedule) {
+        return new Schedule();
+    }
+
+    public String asString() {
+        return "";
+    }
 
     public static class Meeting {
 

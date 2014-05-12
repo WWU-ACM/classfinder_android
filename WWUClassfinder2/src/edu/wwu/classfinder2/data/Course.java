@@ -37,7 +37,7 @@ public class Course {
         values.put(COURSENUMBER, mCourseNumber);
         values.put(NAME, mName);
         values.put(INSTRUCTOR, mInstructor);
-        values.put(SCHEDULE, mSchedule);
+        values.put(SCHEDULE, mSchedule.asString());
         values.put(CAPACITY, mCapacity);
         values.put(ENROLLED, mEnrolled);
         values.put(CREDITS, mCredits);
