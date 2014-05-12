@@ -1,5 +1,7 @@
 package edu.wwu.classfinder2.data;
 
+import android.content.ContentValues;
+
 public class Course {
 
     private long mId = -1;
@@ -24,6 +26,22 @@ public class Course {
 
     public Course() {
 
+    }
+
+    public ContentValues asContentValues() {
+        ContentValues values = new ContentValues();
+
+        values.put(ID_KEY, mId);
+        values.put(CRN_KEY, mCrn);
+        values.put(DEPARTMENT_KEY, mDepartment);
+        values.put(COURSENUMBER_KEY, mCourseNumber);
+        values.put(NAME_KEY, mName);
+        values.put(INSTRUCTOR_KEY, mInstructor);
+        values.put(SCHEDULE_KEY, mSchedule);
+        values.put(CAPACITY_KEY, mCapacity);
+        values.put(ENROLLED_KEY, mEnrolled);
+        values.put(CREDITS_KEY, mCredits);
+        return values;
     }
 
     public long getId() {
