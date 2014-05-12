@@ -1,5 +1,7 @@
 package edu.wwu.classfinder2;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,15 +25,29 @@ import android.widget.TextView;
 
 public class ActivityMain extends Activity {
 
+    // Constants
+    // The authority for the sync adapter's content provider
+    public static final String AUTHORITY =
+        "edu.wwu.classfinder2.provider";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "websso.wwu.edu";
+    // The account name
+    public static final String ACCOUNT = "dummyaccount";
+
+    // Instance fields
 	private String mTitle;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+    private Account mAccount;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+        // Add the dummy account to the Sync service
+        mAccount = CreateCourseSyncAccount(this);
 
 		mTitle = getTitle().toString();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -101,6 +117,30 @@ public class ActivityMain extends Activity {
 		super.onPostCreate(savedInstanceState);
 		mDrawerToggle.syncState();
 	}
+
+    public static Account CreateCourseSyncAccount(Context context) {
+        // Create the account type and default account
+        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+            (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report
+         * an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            return newAccount;
+        } else {
+            /*
+             * The account exists or some other error occurred. Log this,
+             * report it, or handle it internally.
+             */
+            return null;
+        }
+
+    }
 
 	@SuppressLint("Recycle")
 	/*
