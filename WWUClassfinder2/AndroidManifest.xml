@@ -53,8 +53,8 @@
         android:name="edu.wwu.classfinder2.sync.CourseSyncService"
         android:exported="true"
         android:process=":sync">
-        <intent-filter>edu.wwu.classfinder2.provider
-        <action android:name="android.content.SyncAdapter"/>
+        <intent-filter>
+            <action android:name="android.content.SyncAdapter"/>
         </intent-filter>
         <meta-data android:name="android.content.SyncAdapter"
                    android:resource="@xml/syncadapter" />
