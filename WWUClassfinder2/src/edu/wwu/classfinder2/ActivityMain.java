@@ -30,7 +30,7 @@ public class ActivityMain extends Activity {
     public static final String AUTHORITY =
         "edu.wwu.classfinder2.provider";
     // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "websso.wwu.edu";
+    public static final String ACCOUNT_TYPE = "edu.wwu.classfinder2";
     // The account name
     public static final String ACCOUNT = "dummyaccount";
 
