@@ -107,4 +107,15 @@ public class Course {
         this.mCredits = mCredits;
     }
 
+    // Database keys for this class
+    public static final String ID_KEY           = "_id";
+    public static final String CRN_KEY          = "_crn";
+    public static final String DEPARTMENT_KEY   = "_department";
+    public static final String COURSENUMBER_KEY = "_coursenumber";
+    public static final String NAME_KEY         = "_name";
+    public static final String INSTRUCTOR_KEY   = "_instructor";
+    public static final String SCHEDULE_KEY     = "_schedule";
+    public static final String CAPACITY_KEY     = "_capacity";
+    public static final String ENROLLED_KEY     = "_enrolled";
+    public static final String CREDITS_KEY      = "_credits";
 }
