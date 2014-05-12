@@ -10,12 +10,12 @@ public class AuthenticatorService
     extends Service {
 
     // Instance field that stores the authenticator object
-    private NullAuthenticator mAuthenticator;
+    private Authenticator mAuthenticator;
 
     @Override
     public void onCreate() {
         // Create a new authenticator object
-        mAuthenticator = new NullAuthenticator(this);
+        mAuthenticator = new Authenticator(this);
     }
 
     /*

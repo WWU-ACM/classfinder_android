@@ -9,11 +9,11 @@ import android.content.Context;
 
 import android.os.Bundle;
 
-public class NullAuthenticator
+public class Authenticator
     extends AbstractAccountAuthenticator {
 
     // Simple constructor
-    public NullAuthenticator(Context context) {
+    public Authenticator(Context context) {
         super(context);
     }
 
