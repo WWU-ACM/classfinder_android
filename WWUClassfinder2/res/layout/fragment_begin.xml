@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:textColor="?android:textColorTertiary"
         android:text="Swipe from the left of the screen to start." />
 
 </LinearLayout>

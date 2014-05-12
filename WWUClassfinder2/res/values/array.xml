@@ -9,10 +9,10 @@
     </string-array>
     
     <string-array name="drawer_menu_icons">
-        <item>@drawable/menu_icon_transcript</item>
-        <item>@drawable/menu_icon_search</item>
-        <item>@drawable/menu_icon_planner</item>
-        <item>@drawable/menu_icon_calendar</item>
+        <item>@drawable/drawer_icon_transcript</item>
+        <item>@drawable/drawer_icon_search</item>
+        <item>@drawable/drawer_icon_planner</item>
+        <item>@drawable/drawer_icon_calendar</item>
     </string-array>
 
 </resources>
