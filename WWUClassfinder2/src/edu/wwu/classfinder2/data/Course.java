@@ -2,7 +2,7 @@ package edu.wwu.classfinder2.data;
 
 public class Course {
 
-    private long mId;
+    private long mId = -1;
 
     private int mCrn;
 
@@ -22,68 +22,16 @@ public class Course {
 
     private int mCredits;
 
-    public int getCredits() {
-        return mCredits;
+    public Course() {
+
     }
 
-    public void setCredits(int mCredits) {
-        this.mCredits = mCredits;
+    public long getId() {
+        return mId;
     }
 
-    public int getEnrolled() {
-        return mEnrolled;
-    }
-
-    public void setEnrolled(int mEnrolled) {
-        this.mEnrolled = mEnrolled;
-    }
-
-    public int getCapacity() {
-        return mCapacity;
-    }
-
-    public void setCapacity(int mCapacity) {
-        this.mCapacity = mCapacity;
-    }
-
-    public String getMName() {
-        return mName;
-    }
-
-    public void setMName(String mName) {
-        this.mName = mName;
-    }
-
-    public Schedule getSchedule() {
-        return mSchedule;
-    }
-
-    public void setSchedule(Schedule mSchedule) {
-        this.mSchedule = mSchedule;
-    }
-
-    public String getInstructor() {
-        return mInstructor;
-    }
-
-    public void setInstructor(String mInstructor) {
-        this.mInstructor = mInstructor;
-    }
-
-    public int getCourseNumber() {
-        return mCourseNumber;
-    }
-
-    public void setCourseNumber(int mCourseNumber) {
-        this.mCourseNumber = mCourseNumber;
-    }
-
-    public String getDepartment() {
-        return mDepartment;
-    }
-
-    public void setDepartment(String mDepartment) {
-        this.mDepartment = mDepartment;
+    public void setId(long mId) {
+        this.mId = mId;
     }
 
     public int getCrn() {
@@ -94,12 +42,69 @@ public class Course {
         this.mCrn = mCrn;
     }
 
-    public long getId() {
-        return mId;
+    public String getDepartment() {
+        return mDepartment;
     }
 
-    public void setId(long mId) {
-        this.mId = mId;
+    public void setDepartment(String mDepartment) {
+        this.mDepartment = mDepartment;
+    }
+
+    public int getCourseNumber() {
+        return mCourseNumber;
+    }
+
+    public void setCourseNumber(int mCourseNumber) {
+        this.mCourseNumber = mCourseNumber;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public String getInstructor() {
+        return mInstructor;
+    }
+
+    public void setInstructor(String mInstructor) {
+        this.mInstructor = mInstructor;
+    }
+
+    public Schedule getSchedule() {
+        return mSchedule;
+    }
+
+    public void setSchedule(Schedule mSchedule) {
+        this.mSchedule = mSchedule;
+    }
+
+
+    public int getCapacity() {
+        return mCapacity;
+    }
+
+    public void setCapacity(int mCapacity) {
+        this.mCapacity = mCapacity;
+    }
+
+    public int getEnrolled() {
+        return mEnrolled;
+    }
+
+    public void setEnrolled(int mEnrolled) {
+        this.mEnrolled = mEnrolled;
+    }
+
+    public int getCredits() {
+        return mCredits;
+    }
+
+    public void setCredits(int mCredits) {
+        this.mCredits = mCredits;
     }
 
 }
