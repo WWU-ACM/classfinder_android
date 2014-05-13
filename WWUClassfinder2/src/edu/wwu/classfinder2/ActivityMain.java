@@ -30,7 +30,6 @@ public class ActivityMain extends Activity {
     public static final String AUTHORITY =
         "edu.wwu.classfinder2.provider";
     // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "edu.wwu.classfinder2";
     // The account name
     public static final String ACCOUNT = "dummyaccount";
 
@@ -118,9 +117,10 @@ public class ActivityMain extends Activity {
 		mDrawerToggle.syncState();
 	}
 
-    public static Account CreateCourseSyncAccount(Context context) {
+    public Account CreateCourseSyncAccount(Context context) {
         // Create the account type and default account
-        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+        Account newAccount = new Account(ACCOUNT,
+                                         getResources().getString(R.string.account_type));
 
         // Get an instance of the Android account manager
         AccountManager accountManager =
