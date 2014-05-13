@@ -29,6 +29,10 @@ public class FragmentPlannerList extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_planner_list, null);
 		mContainerView = (ViewGroup) view.findViewById(R.id.planner_container);
+		addItem("");
+		addItem("");
+		addItem("");
+		addItem("");
 		return view;
 	}
 
