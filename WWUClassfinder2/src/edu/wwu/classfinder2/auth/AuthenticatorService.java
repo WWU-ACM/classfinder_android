@@ -15,7 +15,7 @@ public class AuthenticatorService
     @Override
     public void onCreate() {
         // Create a new authenticator object
-        mAuthenticator = new Authenticator(this);
+        mAuthenticator = new Authenticator(getApplicationContext());
     }
 
     /*
