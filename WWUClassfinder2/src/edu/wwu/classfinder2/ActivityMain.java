@@ -46,7 +46,9 @@ public class ActivityMain extends Activity {
 		setContentView(R.layout.activity_main);
 
         // Add the dummy account to the Sync service
-        mAccount = CreateCourseSyncAccount(this);
+        mAccount = CreateCourseSyncAccount(this.getApplicationContext(),
+                                           getResources()
+                                           .getString(R.string.account_type));
 
 		mTitle = getTitle().toString();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -117,10 +119,10 @@ public class ActivityMain extends Activity {
 		mDrawerToggle.syncState();
 	}
 
-    public Account CreateCourseSyncAccount(Context context) {
+    public static Account CreateCourseSyncAccount(Context context, String accountType) {
         // Create the account type and default account
         Account newAccount = new Account(ACCOUNT,
-                                         getResources().getString(R.string.account_type));
+                                         accountType);
 
         // Get an instance of the Android account manager
         AccountManager accountManager =
