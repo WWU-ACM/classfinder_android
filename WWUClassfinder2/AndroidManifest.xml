@@ -34,7 +34,7 @@
 
     <provider
         android:name="edu.wwu.classfinder2.provider.CourseProvider"
-        android:authorities="edu.wwu.classfinder2.provider"
+        android:authorities="@string/provider_authority"
         android:enabled="true"
         android:exported="false"
         android:syncable="true"/>
@@ -51,8 +51,7 @@
 
     <service
         android:name="edu.wwu.classfinder2.data.sync.CourseSyncService"
-        android:exported="true"
-        android:process=":sync">
+        android:exported="true">
         <intent-filter>
             <action android:name="android.content.SyncAdapter"/>
         </intent-filter>
