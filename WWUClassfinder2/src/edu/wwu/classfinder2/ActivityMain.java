@@ -46,7 +46,7 @@ public class ActivityMain extends Activity {
 		setContentView(R.layout.activity_main);
 
         // Add the dummy account to the Sync service
-        // mAccount = CreateCourseSyncAccount(this);
+        mAccount = CreateCourseSyncAccount(this);
 
 		mTitle = getTitle().toString();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -72,7 +72,7 @@ public class ActivityMain extends Activity {
 		// Set adapter for list view
 		mDrawerList.setAdapter(new DrawerMenuAdapter(this));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+		
 		// Reset title on configuration change
 		if (savedInstanceState != null && savedInstanceState.getString("ActionBarTitle") != null) {
 			setTitle(savedInstanceState.getString("ActionBarTitle"));
@@ -104,7 +104,7 @@ public class ActivityMain extends Activity {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-
+	
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title.toString();
