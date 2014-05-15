@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 public class FragmentStart extends Fragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_begin, null);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_begin, null);
+    }
 }
