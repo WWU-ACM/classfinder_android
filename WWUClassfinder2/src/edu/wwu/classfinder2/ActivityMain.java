@@ -3,20 +3,25 @@ package edu.wwu.classfinder2;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
