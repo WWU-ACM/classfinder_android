@@ -149,10 +149,17 @@ public class ActivityMain extends Activity {
             return newAccount;
         } else {
             /*
-             * The account exists or some other error occurred. Log this,
-             * report it, or handle it internally.
+             * The account might exist already. Since its a dummy
+             * account anyhow, let's just see if there are any
+             * accounts for our account_type.
              */
-            return null;
+            Account[] accounts =
+                accountManager.getAccountsByType(accountType);
+            if (accounts.length != 0) {
+                return accounts[0];
+            } else {
+                return null;
+            }
         }
 
     }
