@@ -1,8 +1,5 @@
 package edu.wwu.classfinder2.data.sync;
 
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-
 import android.accounts.Account;
 
 import android.content.AbstractThreadedSyncAdapter;
@@ -12,6 +9,8 @@ import android.content.Context;
 import android.content.SyncResult;
 
 import android.os.Bundle;
+
+import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
