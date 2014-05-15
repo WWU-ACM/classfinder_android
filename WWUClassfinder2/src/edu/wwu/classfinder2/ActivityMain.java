@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -44,6 +45,7 @@ public class ActivityMain extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Account mAccount;
+    private ContentResolver mResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,15 @@ public class ActivityMain extends Activity {
         setContentView(R.layout.activity_main);
 
         // Add the dummy account to the Sync service
-        mAccount = CreateCourseSyncAccount(this.getApplicationContext(),
-                                           getResources()
-                                           .getString(R.string.account_type));
+        mAccount =
+            CreateCourseSyncAccount(this.getApplicationContext(),
+                                    getResources()
+                                    .getString(R.string.account_type));
+
+        mResolver = getContentResolver();
+        if (mResolver != null) {
+            mResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+        }
 
         mTitle = getTitle().toString();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
