@@ -14,8 +14,6 @@ public class AuthenticatorService
 
     @Override
     public void onCreate() {
-        // Create a new authenticator object
-        mAuthenticator = new Authenticator(this);
     }
 
     /*
@@ -24,6 +22,8 @@ public class AuthenticatorService
      */
     @Override
     public IBinder onBind(Intent intent) {
+        // Create a new authenticator object
+        mAuthenticator = new Authenticator(getApplicationContext());
         return mAuthenticator.getIBinder();
     }
 
