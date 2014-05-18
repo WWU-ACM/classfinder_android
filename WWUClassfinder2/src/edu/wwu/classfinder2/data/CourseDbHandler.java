@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteStatement;
 
 public class CourseDbHandler {
 
-    private Context context;
-    private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
+    private Context mContext;
+    private DatabaseHelper mDbHelper;
+    private SQLiteDatabase mDb;
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -26,11 +26,11 @@ public class CourseDbHandler {
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
-        Context context;
+        Context mContext;
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
-            this.context = context;
+            this.mContext = context;
         }
 
         @Override
