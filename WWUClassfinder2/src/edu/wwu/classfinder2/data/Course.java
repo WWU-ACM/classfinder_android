@@ -92,7 +92,8 @@ public class Course {
         return mInstructor;
     }
 
-    public void setInstructor(String instructor) {
+    public void setInstructor(int instructorId, String instructor) {
+        this.mInstructorId = instructorId;
         this.mInstructor = instructor;
     }
 
