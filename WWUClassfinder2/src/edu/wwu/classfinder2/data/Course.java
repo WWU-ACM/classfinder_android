@@ -33,8 +33,10 @@ public class Course {
     }
 
     public ContentValues asContentValues() {
-        ContentValues values = new ContentValues();
+        return asContentValues(new ContentValues());
+    }
 
+    public ContentValues asContentValues(ContentValues values) {
         values.put(_ID, mId);
         values.put(CRN, mCrn);
         values.put(DEPARTMENT, mDepartment);
