@@ -21,8 +21,28 @@ public class CourseDbHandler {
     // Database Name
     private static final String DATABASE_NAME = "courses";
 
+    public CourseDbHandler(Context context) {
+        this.mContext = context;
+    }
 
+    public CourseDbHandler open() {
+        mDbHelper = new DatabaseHelper(mContext);
+        mDb = mDbHelper.getWritableDatabase();
 
+        return this;
+    }
+
+    public void close() {
+        mDbHelper.close();
+    }
+
+    public void insertCourse(Course course) {
+
+    }
+
+    public Cursor getAllCourses() {
+        return null;
+    }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
