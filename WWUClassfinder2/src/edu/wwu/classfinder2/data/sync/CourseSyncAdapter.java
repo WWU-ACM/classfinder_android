@@ -1,6 +1,9 @@
 package edu.wwu.classfinder2.data.sync;
 
+
 import android.accounts.Account;
+
+import android.app.NotificationManager;
 
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -9,6 +12,10 @@ import android.content.Context;
 import android.content.SyncResult;
 
 import android.os.Bundle;
+
+import android.support.v4.app.NotificationCompat;
+
+import edu.wwu.classfinder2.R;
 
 import java.io.IOException;
 
@@ -24,6 +31,7 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String URL = "cfinder.mcyamaha.com/test";
     // Global variables
     // Define a variable to contain a content resolver instance
+    Context mContext;
     ContentResolver mContentResolver;
 
     /**
@@ -31,10 +39,7 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public CourseSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        /*
-         * If your app uses a content resolver, get an instance of it
-         * from the incoming Context
-         */
+        mContext = context;
         mContentResolver = context.getContentResolver();
     }
 
@@ -47,7 +52,7 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
                              boolean autoInitialize,
                              boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-
+        mContext = context;
         mContentResolver = context.getContentResolver();
 
     }
@@ -65,11 +70,20 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = httpclient.execute(new HttpGet(URL));
             StatusLine statusLine = response.getStatusLine();
+            NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(mContext)
+                .setSmallIcon(R.drawable.logo_classfinder)
+                .setContentTitle("Course Sync Adapter");
+
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                // FIXME: do stuff with the JSON
+                builder.setContentText("Got the JSON stub");
             } else{
-                // Urmmm, do stuff with the failure?
+                builder.setContentText("Something bad happened... "
+                                       + "No JSON for us.");
             }
+            NotificationManager nm =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.notify(1, builder.build());
 
             response.getEntity().getContent().close();
 
