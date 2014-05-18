@@ -1,5 +1,8 @@
 package edu.wwu.classfinder2.data;
 
+import edu.wwu.classfinder2.provider.CourseContract;
+import edu.wwu.classfinder2.provider.InstructorContract;
+
 import android.content.Context;
 
 import android.database.Cursor;
@@ -17,6 +20,27 @@ public class CourseDbHandler {
 
     // Database Name
     private static final String DATABASE_NAME = "courses";
+
+    private static final String CREATE_COURSE_TABLE =
+        "CREATE TABLE " + CourseContract.TABLE + " ("
+        + CourseContract._ID          + " INTEGER PRIMARY KEY, "
+        + CourseContract.CRN          + " INTEGER, "
+        + CourseContract.DEPARTMENT   + " TEXT, "
+        + CourseContract.COURSENUMBER + " INTEGER, "
+        + CourseContract.NAME         + " TEXT, "
+        + CourseContract.INSTRUCTOR   + " INTEGER, "
+        + CourseContract.SCHEDULE     + " TEXT, "
+        + CourseContract.CAPACITY     + " INTEGER, "
+        + CourseContract.ENROLLED     + " INTEGER, "
+        + CourseContract.CREDITS      + " INTEGER, "
+        + "FOREIGN KEY(" + CourseContract.INSTRUCTOR
+                         + ") REFERENCES " + InstructorContract.TABLE;
+
+    private static final String CREATE_INSTRUCTOR_TABLE =
+        "CREATE TABLE " + InstructorContract.TABLE + " ("
+        + InstructorContract._ID   + " INTEGER PRIMARY KEY, "
+        + InstructorContract.FIRST_NAME + " TEXT, "
+        + InstructorContract.LAST_NAME + " TEXT";
 
     public CourseDbHandler(Context context) {
         this.mContext = context;
@@ -52,6 +76,8 @@ public class CourseDbHandler {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL(CREATE_INSTRUCTOR_TABLE);
+            db.execSQL(CREATE_COURSE_TABLE);
         }
 
         @Override
