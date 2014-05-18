@@ -16,7 +16,7 @@ public class Course {
 
     private String mName;
 
-    private int mInstructorId;
+    private long mInstructorId;
 
     private String mInstructor;
 
@@ -92,7 +92,7 @@ public class Course {
         return mInstructor;
     }
 
-    public void setInstructor(int instructorId, String instructor) {
+    public void setInstructor(long instructorId, String instructor) {
         this.mInstructorId = instructorId;
         this.mInstructor = instructor;
     }
