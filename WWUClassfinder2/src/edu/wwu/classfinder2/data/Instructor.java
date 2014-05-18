@@ -6,6 +6,9 @@ import android.content.ContentValues;
 
 import android.database.Cursor;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Instructor {
 
     private long mId = -1;
@@ -62,4 +65,28 @@ public class Instructor {
         instructor.setLastName(cursor.getString(col));
         return instructor;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj == this || !(obj instanceof Instructor)) {
+            return false;
+        }
+
+        Instructor oInst = (Instructor) obj;
+        return new EqualsBuilder()
+            .append(mId, oInst.mId)
+            .append(mFirstName, oInst.mFirstName)
+            .append(mLastName,  oInst.mLastName)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+            .append(mId)
+            .append(mFirstName)
+            .append(mLastName)
+            .toHashCode();
+    }
+
 }
