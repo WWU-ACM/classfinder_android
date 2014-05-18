@@ -14,6 +14,8 @@ public final class CourseContract {
         CONTENT_URI = ub.build();
     }
 
+    public static final String TABLE = "tblCourses";
+
     // Content Provider keys
     public static final String _ID          = "_id";
     public static final String CRN          = "_crn";
