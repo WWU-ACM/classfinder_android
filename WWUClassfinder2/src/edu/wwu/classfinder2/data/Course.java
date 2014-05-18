@@ -16,6 +16,8 @@ public class Course {
 
     private String mName;
 
+    private int mInstructorId;
+
     private String mInstructor;
 
     private Schedule mSchedule;
@@ -38,7 +40,7 @@ public class Course {
         values.put(DEPARTMENT, mDepartment);
         values.put(COURSENUMBER, mCourseNumber);
         values.put(NAME, mName);
-        values.put(INSTRUCTOR, mInstructor);
+        values.put(INSTRUCTOR, mInstructorId);
         values.put(SCHEDULE, mSchedule.asString());
         values.put(CAPACITY, mCapacity);
         values.put(ENROLLED, mEnrolled);
