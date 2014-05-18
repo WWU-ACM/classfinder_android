@@ -70,6 +70,46 @@ public class CourseDbHandler {
         return null;
     }
 
+    private boolean insertInstructor(Instructor instructor) {
+        ContentValues values = instructor.asContentValues();
+
+        long id = mDb.insert(InstructorContract.TABLE, null, values);
+        instructor.setId(id);
+        return id != -1;
+    }
+
+    private boolean ensureInstructorExists(Instructor instructor) {
+
+        if (instructor.getId() != -1) {
+            Instructor fromDb = getInstructorById(instructor.getId());
+            return fromDb.equals(instructor);
+        } else {
+            return insertInstructor(instructor);
+        }
+    }
+
+    private Instructor getInstructorById(long id) {
+        Cursor results =
+            mDb.query(true, InstructorContract.TABLE,
+                      new String[] {InstructorContract._ID,
+                                    InstructorContract.FIRST_NAME,
+                                    InstructorContract.LAST_NAME},
+                      InstructorContract._ID + " = ?",
+                      new String[] {Long.toString(id)},
+                      null, // No group by clause
+                      null, // Same, but mandatory because no grouping
+                      null, // Default sort order
+                      "LIMIT 1",
+                      null); // No cancellation signal
+
+        if (results.getCount() == 1) {
+            results.moveToFirst();
+            return Instructor.fromCursor(results);
+        } else {
+            return new Instructor();
+        }
+    }
+
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
