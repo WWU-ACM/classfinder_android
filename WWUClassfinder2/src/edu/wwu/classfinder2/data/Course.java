@@ -16,9 +16,7 @@ public class Course {
 
     private String mName;
 
-    private long mInstructorId;
-
-    private String mInstructor;
+    private Instructor mInstructor;
 
     private Schedule mSchedule;
 
@@ -42,7 +40,7 @@ public class Course {
         values.put(DEPARTMENT, mDepartment);
         values.put(COURSENUMBER, mCourseNumber);
         values.put(NAME, mName);
-        values.put(INSTRUCTOR, mInstructorId);
+        mInstructor.asContentValues(values);
         values.put(SCHEDULE, mSchedule.asString());
         values.put(CAPACITY, mCapacity);
         values.put(ENROLLED, mEnrolled);
@@ -90,12 +88,11 @@ public class Course {
         this.mName = name;
     }
 
-    public String getInstructor() {
+    public Instructor getInstructor() {
         return mInstructor;
     }
 
-    public void setInstructor(long instructorId, String instructor) {
-        this.mInstructorId = instructorId;
+    public void setInstructor(Instructor instructor) {
         this.mInstructor = instructor;
     }
 
