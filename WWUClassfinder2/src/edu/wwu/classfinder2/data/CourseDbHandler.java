@@ -59,11 +59,11 @@ public class CourseDbHandler {
     }
 
     public void insertCourse(Course course) {
-        ContentValues cv = course.asContentValues();
+        ContentValues values = course.asContentValues();
         // TODO: Need to specially handle the case when the instructor
         // is -1 Probably need to look have method to check if
         // instructor exists, otherwise insert into DB
-        mDb.insert(CourseContract.TABLE, null, cv);
+        mDb.insert(CourseContract.TABLE, null, values);
     }
 
     public Cursor getAllCourses() {
