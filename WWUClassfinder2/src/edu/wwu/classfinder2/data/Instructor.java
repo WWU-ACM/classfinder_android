@@ -4,6 +4,8 @@ import edu.wwu.classfinder2.provider.InstructorContract;
 
 import android.content.ContentValues;
 
+import android.database.Cursor;
+
 public class Instructor {
 
     private long mId;
@@ -47,4 +49,17 @@ public class Instructor {
         return values;
     }
 
+    public static Instructor fromCursor(Cursor cursor) {
+        Instructor instructor = new Instructor();
+
+        int col = cursor.getColumnIndex(InstructorContract._ID);
+        instructor.setId(cursor.getLong(col));
+
+        col = cursor.getColumnIndex(InstructorContract.FIRST_NAME);
+        instructor.setFirstName(cursor.getString(col));
+
+        col = cursor.getColumnIndex(InstructorContract.LAST_NAME);
+        instructor.setLastName(cursor.getString(col));
+        return instructor;
+    }
 }
