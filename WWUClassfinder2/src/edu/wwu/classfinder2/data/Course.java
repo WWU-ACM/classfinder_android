@@ -52,81 +52,80 @@ public class Course {
         return mId;
     }
 
-    public void setId(long mId) {
-        this.mId = mId;
+    public void setId(long id) {
+        this.mId = id;
     }
 
     public int getCrn() {
         return mCrn;
     }
 
-    public void setCrn(int mCrn) {
-        this.mCrn = mCrn;
+    public void setCrn(int crn) {
+        this.mCrn = crn;
     }
 
     public String getDepartment() {
         return mDepartment;
     }
 
-    public void setDepartment(String mDepartment) {
-        this.mDepartment = mDepartment;
+    public void setDepartment(String department) {
+        this.mDepartment = department;
     }
 
     public int getCourseNumber() {
         return mCourseNumber;
     }
 
-    public void setCourseNumber(int mCourseNumber) {
-        this.mCourseNumber = mCourseNumber;
+    public void setCourseNumber(int coursenumber) {
+        this.mCourseNumber = coursenumber;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        this.mName = name;
     }
 
     public String getInstructor() {
         return mInstructor;
     }
 
-    public void setInstructor(String mInstructor) {
-        this.mInstructor = mInstructor;
+    public void setInstructor(String instructor) {
+        this.mInstructor = instructor;
     }
 
     public Schedule getSchedule() {
         return mSchedule;
     }
 
-    public void setSchedule(Schedule mSchedule) {
-        this.mSchedule = mSchedule;
+    public void setSchedule(Schedule schedule) {
+        this.mSchedule = schedule;
     }
-
 
     public int getCapacity() {
         return mCapacity;
     }
 
-    public void setCapacity(int mCapacity) {
-        this.mCapacity = mCapacity;
+    public void setCapacity(int capacity) {
+        this.mCapacity = capacity;
     }
 
     public int getEnrolled() {
         return mEnrolled;
     }
 
-    public void setEnrolled(int mEnrolled) {
-        this.mEnrolled = mEnrolled;
+    public void setEnrolled(int enrolled) {
+        this.mEnrolled = enrolled;
     }
 
     public int getCredits() {
         return mCredits;
     }
 
-    public void setCredits(int mCredits) {
-        this.mCredits = mCredits;
+    public void setCredits(int credits) {
+        this.mCredits = credits;
     }
 
     public static final String CONTENT_URI  =
