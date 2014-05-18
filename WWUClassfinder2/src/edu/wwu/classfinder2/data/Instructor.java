@@ -1,5 +1,9 @@
 package edu.wwu.classfinder2.data;
 
+import edu.wwu.classfinder2.provider.InstructorContract;
+
+import android.content.ContentValues;
+
 public class Instructor {
 
     private long mId;
@@ -30,6 +34,17 @@ public class Instructor {
 
     public void setLastName(String lastname) {
         this.mLastName = lastname;
+    }
+
+    public ContentValues asContentValues() {
+        return asContentValues(new ContentValues());
+    }
+
+    public ContentValues asContentValues(ContentValues values) {
+        values.put(InstructorContract._ID, mId);
+        values.put(InstructorContract.FIRST_NAME, mFirstName);
+        values.put(InstructorContract.LAST_NAME, mLastName);
+        return values;
     }
 
 }
