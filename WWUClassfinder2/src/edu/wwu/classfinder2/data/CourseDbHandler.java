@@ -3,6 +3,7 @@ package edu.wwu.classfinder2.data;
 import edu.wwu.classfinder2.provider.CourseContract;
 import edu.wwu.classfinder2.provider.InstructorContract;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
@@ -58,7 +59,8 @@ public class CourseDbHandler {
     }
 
     public void insertCourse(Course course) {
-
+        ContentValues cv = course.asContentValues();
+        mDb.insert(CourseContract.TABLE, null, cv);
     }
 
     public Cursor getAllCourses() {
