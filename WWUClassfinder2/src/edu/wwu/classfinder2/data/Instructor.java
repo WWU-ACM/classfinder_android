@@ -8,7 +8,7 @@ import android.database.Cursor;
 
 public class Instructor {
 
-    private long mId;
+    private long mId = -1;
 
     private String mFirstName;
 
