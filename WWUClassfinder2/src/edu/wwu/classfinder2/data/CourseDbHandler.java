@@ -67,11 +67,8 @@ public class CourseDbHandler {
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
-        Context mContext;
-
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
-            this.mContext = context;
         }
 
         @Override
