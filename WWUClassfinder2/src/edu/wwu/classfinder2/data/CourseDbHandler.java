@@ -59,10 +59,14 @@ public class CourseDbHandler {
     }
 
     public void insertCourse(Course course) {
+
+        // Call this before asContentValues.
+        // ensureInstructorExists modifies the Instructor object
+        // inside the course to make sure it corresponds to one from
+        // the database.
+        ensureInstructorExists(course.getInstructor());
+
         ContentValues values = course.asContentValues();
-        // TODO: Need to specially handle the case when the instructor
-        // is -1 Probably need to look have method to check if
-        // instructor exists, otherwise insert into DB
         mDb.insert(CourseContract.TABLE, null, values);
     }
 
