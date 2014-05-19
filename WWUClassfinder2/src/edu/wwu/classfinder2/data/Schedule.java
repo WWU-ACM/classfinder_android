@@ -143,15 +143,14 @@ public class Schedule {
 
             if (end.isAfter(LocalTime.NOON)) {
                 amOrPm = "pm";
-                if (start.isAfter(LocalTime.NOON))
+                if (start.isAfter(LocalTime.NOON.plusHours(1))) {
                     start = start.minusHours(12);
+                }
                 end = end.minusHours(12);
             } else {
                 amOrPm = "am";
                 start = mStartTime;
             }
-
-
 
             return String.format("%c %s-%s %s",
                                  dayChar,
