@@ -25,6 +25,10 @@ public class FragmentPlannerList extends Fragment {
     private ViewGroup mContainerView;
     private View view;
 
+    public FragmentPlannerList() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_planner_list, null);

@@ -43,6 +43,10 @@ public class FragmentTranscript extends Fragment {
         }
     }
 
+    public FragmentTranscript() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_transcript, null);

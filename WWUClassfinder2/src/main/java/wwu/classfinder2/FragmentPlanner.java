@@ -22,6 +22,10 @@ public class FragmentPlanner extends Fragment implements FragmentPlannerList.OnI
     ViewPager mViewPager;
     ActionBar mActionBar;
 
+    public FragmentPlanner() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

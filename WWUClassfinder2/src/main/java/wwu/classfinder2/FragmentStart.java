@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 
 public class FragmentStart extends Fragment {
 
+    public FragmentStart() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup contrainer,

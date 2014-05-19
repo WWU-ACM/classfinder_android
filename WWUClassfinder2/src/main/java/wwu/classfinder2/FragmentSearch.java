@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 public class FragmentSearch extends ListFragment{
+
+    public FragmentSearch() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
