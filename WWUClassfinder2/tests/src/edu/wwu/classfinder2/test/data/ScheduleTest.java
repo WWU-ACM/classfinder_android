@@ -6,8 +6,11 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import edu.wwu.classfinder2.data.Schedule;
-import edu.wwu.classfinder2.data.Schedule.DayOfWeek;
 import edu.wwu.classfinder2.data.Schedule.Meeting;
+
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.Duration;
+import org.threeten.bp.LocalTime;
 
 public class ScheduleTest extends TestCase {
 
