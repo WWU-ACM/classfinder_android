@@ -1,9 +1,18 @@
 package edu.wwu.classfinder2.data;
 
 import java.util.List;
+import java.util.ArrayList;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.Duration;
+import org.threeten.bp.LocalTime;
+
+import org.threeten.bp.temporal.ChronoUnit;
 
 public class Schedule {
 
@@ -17,8 +26,12 @@ public class Schedule {
         this.mMeetings = meetings;
     }
 
-    public static Schedule fromString(String schedule) {
-        return new Schedule();
+    public static Schedule fromString(String scheduleStr) {
+        Schedule schedule = new Schedule();
+        List<Meeting> meetings = new ArrayList<Meeting>();
+        CollectionUtils.addAll(meetings, new ScheduleParser(scheduleStr));
+        schedule.setMeetings(meetings);
+        return schedule;
     }
 
     public String asString() {
@@ -48,19 +61,34 @@ public class Schedule {
 
         private DayOfWeek mDay;
 
-        private MeetTime mTime;
+        private LocalTime mStartTime;
 
-        public Meeting(DayOfWeek day, MeetTime time) {
+        private Duration mDuration;
+
+        public Meeting(DayOfWeek day,
+                       LocalTime startTime,
+                       Duration duration) {
+            if (day == null)
+                throw new IllegalArgumentException("Day of week is null.");
             mDay = day;
-            mTime = time;
-        }
-
-        public MeetTime getTime() {
-            return mTime;
+            if (startTime == null)
+                throw new IllegalArgumentException("Start time is null.");
+            mStartTime = startTime;
+            if (duration == null)
+                throw new IllegalArgumentException("Duration is null.");
+            mDuration = duration;
         }
 
         public DayOfWeek getDay() {
             return mDay;
+        }
+
+        public LocalTime getStartTime() {
+            return mStartTime;
+        }
+
+        public Duration getDuration() {
+            return mDuration;
         }
 
         @Override
@@ -73,7 +101,8 @@ public class Schedule {
             Meeting oMeeting = (Meeting) obj;
             return new EqualsBuilder()
                 .append(mDay, oMeeting.mDay)
-                .append(mTime, oMeeting.mTime)
+                .append(mStartTime, oMeeting.mStartTime)
+                .append(mDuration, oMeeting.mDuration)
                 .isEquals();
         }
 
@@ -81,54 +110,56 @@ public class Schedule {
         public int hashCode() {
             return new HashCodeBuilder(17, 31)
                 .append(mDay)
-                .append(mTime)
-                .toHashCode();
-        }
-    }
-
-    public static class MeetTime {
-        private int mStartTime;
-
-        private int mDuration;
-
-        public MeetTime(int startTime, int duration) {
-            mStartTime = startTime;
-            mDuration = duration;
-        }
-
-        public int getDuration() {
-            return mDuration;
-        }
-
-        public int getStartTime() {
-            return mStartTime;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null || obj == this
-                || !(obj instanceof MeetTime)) {
-                return false;
-            }
-
-            MeetTime oMeetTime = (MeetTime) obj;
-            return new EqualsBuilder()
-                .append(mStartTime, oMeetTime.mStartTime)
-                .append(mDuration, oMeetTime.mDuration)
-                .isEquals();
-        }
-
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(17, 31)
                 .append(mStartTime)
                 .append(mDuration)
                 .toHashCode();
         }
+
+        @Override
+        public String toString() {
+            char dayChar;
+            switch (mDay) {
+            case SUNDAY:    dayChar = 'U';
+                break;
+            case MONDAY:    dayChar = 'M';
+                break;
+            case TUESDAY:   dayChar = 'T';
+                break;
+            case WEDNESDAY: dayChar = 'W';
+                break;
+            case THURSDAY:  dayChar = 'R';
+                break;
+            case FRIDAY:    dayChar = 'F';
+                break;
+            case SATURDAY:  dayChar = 'S';
+                break;
+            default: dayChar = 'X';
+                break;
+            }
+
+            LocalTime start = mStartTime;
+            String amOrPm;
+            LocalTime end = start.plus(mDuration);
+            LocalTime onePm = LocalTime.NOON.plusHours(1);
+
+            if (end.isAfter(LocalTime.NOON)) {
+                amOrPm = "pm";
+                if (start.isAfter(onePm))
+                    start = start.minusHours(12);
+                if (end.isAfter(onePm))
+                    end = end.minusHours(12);
+            } else {
+                amOrPm = "am";
+                start = mStartTime;
+            }
+
+            return String.format("%c %s-%s %s",
+                                 dayChar,
+                                 start.toString(),
+                                 end.toString(),
+                                 amOrPm);
+        }
     }
 
-    public static enum DayOfWeek {
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
-        THURSDAY, FRIDAY, SATURDAY
-    }
+
 }
