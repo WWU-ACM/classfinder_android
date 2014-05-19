@@ -124,7 +124,8 @@ public class ScheduleParser
             if (amPm == 'p') {
                 if (mCurrentStartTime.isBefore(LocalTime.NOON))
                     mCurrentStartTime = mCurrentStartTime.plusHours(12);
-                endTime = endTime.plusHours(12);
+                if (endTime.isBefore(LocalTime.NOON))
+                    endTime = endTime.plusHours(12);
             }
 
             mCurrentDuration = Duration.between(mCurrentStartTime,
