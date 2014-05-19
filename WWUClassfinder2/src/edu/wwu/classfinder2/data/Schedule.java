@@ -68,8 +68,14 @@ public class Schedule {
         public Meeting(DayOfWeek day,
                        LocalTime startTime,
                        Duration duration) {
+            if (day == null)
+                throw new IllegalArgumentException("Day of week is null.");
             mDay = day;
+            if (startTime == null)
+                throw new IllegalArgumentException("Start time is null.");
             mStartTime = startTime;
+            if (duration == null)
+                throw new IllegalArgumentException("Duration is null.");
             mDuration = duration;
         }
 
