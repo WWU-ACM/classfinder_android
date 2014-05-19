@@ -33,26 +33,6 @@ public class Course {
 
     }
 
-    public ContentValues asContentValues() {
-        return asContentValues(new ContentValues());
-    }
-
-    public ContentValues asContentValues(ContentValues values) {
-
-        values.put(CourseContract._ID, mId);
-        values.put(CourseContract.CRN, mCrn);
-        values.put(CourseContract.DEPARTMENT, mDepartment);
-        values.put(CourseContract.COURSENUMBER, mCourseNumber);
-        values.put(CourseContract.NAME, mName);
-        mInstructor.asContentValues(values);
-        values.put(CourseContract.SCHEDULE, mSchedule.asString());
-        values.put(CourseContract.CAPACITY, mCapacity);
-        values.put(CourseContract.ENROLLED, mEnrolled);
-        values.put(CourseContract.CREDITS, mCredits);
-
-        return values;
-    }
-
     public long getId() {
         return mId;
     }
@@ -131,6 +111,26 @@ public class Course {
 
     public void setCredits(int credits) {
         this.mCredits = credits;
+    }
+
+    public ContentValues asContentValues() {
+        return asContentValues(new ContentValues());
+    }
+
+    public ContentValues asContentValues(ContentValues values) {
+
+        values.put(CourseContract._ID, mId);
+        values.put(CourseContract.CRN, mCrn);
+        values.put(CourseContract.DEPARTMENT, mDepartment);
+        values.put(CourseContract.COURSENUMBER, mCourseNumber);
+        values.put(CourseContract.NAME, mName);
+        mInstructor.asContentValues(values);
+        values.put(CourseContract.SCHEDULE, mSchedule.asString());
+        values.put(CourseContract.CAPACITY, mCapacity);
+        values.put(CourseContract.ENROLLED, mEnrolled);
+        values.put(CourseContract.CREDITS, mCredits);
+
+        return values;
     }
 
     @Override
