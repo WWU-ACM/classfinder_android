@@ -17,7 +17,7 @@ public class Schedule {
         this.mMeetings = meetings;
     }
 
-    public Schedule fromString(String schedule) {
+    public static Schedule fromString(String schedule) {
         return new Schedule();
     }
 
