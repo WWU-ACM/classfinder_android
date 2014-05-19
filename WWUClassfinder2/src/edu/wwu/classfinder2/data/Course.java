@@ -129,7 +129,8 @@ public class Course {
         values.put(CourseContract.COURSENUMBER, mCourseNumber);
         values.put(CourseContract.NAME, mName);
         mInstructor.asContentValues(values);
-        values.put(CourseContract.SCHEDULE, mSchedule.asString());
+        values.put(CourseContract.SCHEDULE,
+                   mSchedule != null ? mSchedule.asString() : "");
         values.put(CourseContract.CAPACITY, mCapacity);
         values.put(CourseContract.ENROLLED, mEnrolled);
         values.put(CourseContract.CREDITS, mCredits);
