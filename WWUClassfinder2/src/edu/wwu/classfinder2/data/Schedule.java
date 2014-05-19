@@ -137,18 +137,21 @@ public class Schedule {
                 break;
             }
 
-            LocalTime start;
+            LocalTime start = mStartTime;
             String amOrPm;
+            LocalTime end = start.plus(mDuration);
 
-            if (mStartTime.isAfter(LocalTime.NOON)) {
+            if (end.isAfter(LocalTime.NOON)) {
                 amOrPm = "pm";
-                start = mStartTime.minus(12, ChronoUnit.HOURS);
+                if (start.isAfter(LocalTime.NOON))
+                    start = start.minusHours(12);
+                end = end.minusHours(12);
             } else {
                 amOrPm = "am";
                 start = mStartTime;
             }
 
-            LocalTime end = start.plus(mDuration);
+
 
             return String.format("%c %s-%s %s",
                                  dayChar,

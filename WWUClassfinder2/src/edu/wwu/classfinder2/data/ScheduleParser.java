@@ -121,13 +121,14 @@ public class ScheduleParser
             mCurrentStartTime = LocalTime.parse(startAndEndTime[0]);
             LocalTime endTime = LocalTime.parse(startAndEndTime[1]);
 
+            if (amPm == 'p') {
+                if (mCurrentStartTime.isBefore(LocalTime.NOON))
+                    mCurrentStartTime = mCurrentStartTime.plusHours(12);
+                endTime = endTime.plusHours(12);
+            }
+
             mCurrentDuration = Duration.between(mCurrentStartTime,
                                                 endTime);
-
-            if (amPm == 'p') {
-                mCurrentStartTime =
-                    mCurrentStartTime.plus(12, ChronoUnit.HOURS);
-            }
         }
 
     }
