@@ -77,7 +77,7 @@ public class Course {
         return mInstructor;
     }
 
-    public void setMInstructor(Instructor instructor) {
+    public void setInstructor(Instructor instructor) {
         this.mInstructor = instructor;
     }
 
