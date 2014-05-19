@@ -63,7 +63,8 @@ dependencies {
         }
     }
     
-    compile 'com.android.support:support-v13:18.0.+',
+    compile 'com.android.support:appcompat-v7:18.0.+',
+            'com.android.support:support-v13:18.0.+',
             'org.apache.commons:commons-lang3:3.3.2',
             'org.apache.commons:commons-collections4:4.0',
             'org.threeten:threetenbp:0.9'

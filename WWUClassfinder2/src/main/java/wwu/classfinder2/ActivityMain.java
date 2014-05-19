@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -29,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends ActionBarActivity {
 
     // Constants
     // The authority for the sync adapter's content provider
@@ -71,18 +72,18 @@ public class ActivityMain extends Activity {
                 @Override
                 public void onDrawerOpened(View drawerView) {
                     super.onDrawerOpened(drawerView);
-                    getActionBar().setTitle(R.string.app_name);
+                    getSupportActionBar().setTitle(R.string.app_name);
                 }
                 @Override
                 public void onDrawerClosed(View drawerView){
                     super.onDrawerClosed(drawerView);
-                    getActionBar().setTitle(mTitle);
+                    getSupportActionBar().setTitle(mTitle);
                 }
             };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         // Set adapter for list view
         mDrawerList.setAdapter(new DrawerMenuAdapter(this));
@@ -102,7 +103,7 @@ public class ActivityMain extends Activity {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString("ActionBarTitle", getActionBar().getTitle().toString());
+        outState.putString("ActionBarTitle", getSupportActionBar().getTitle().toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -123,7 +124,7 @@ public class ActivityMain extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title.toString();
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     @Override
