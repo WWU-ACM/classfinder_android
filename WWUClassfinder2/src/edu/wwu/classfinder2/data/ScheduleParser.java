@@ -69,6 +69,10 @@ public class ScheduleParser
             // Get the day char and increment the dayIndex
             char dayChar = mCurrentDays.charAt(mDayIndex++);
 
+            Meeting meeting = new Meeting(dayFromCharacter(dayChar),
+                                          mCurrentStartTime,
+                                          mCurrentDuration);
+
             // Check if out of days for current time and duration
             if (mDayIndex >= mCurrentDays.length()) {
                 mCurrentDays      = null;
@@ -79,9 +83,7 @@ public class ScheduleParser
                 mDayIndex = 0;
             }
 
-            return new Meeting(dayFromCharacter(dayChar),
-                               mCurrentStartTime,
-                               mCurrentDuration);
+            return meeting;
         }
 
         @Override
