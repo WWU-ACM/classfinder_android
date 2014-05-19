@@ -19,17 +19,23 @@ import org.threeten.bp.temporal.ChronoUnit;
 public class ScheduleParserTest extends TestCase {
 
     public void testParse() {
-        Map<String, Meeting> cases = new ArrayMap<String, Meeting>();
+        Map<String, Meeting[]> cases = new ArrayMap<String, Meeting[]>();
         cases.put("M 10:00-10:50 am",
-                  new Meeting(DayOfWeek.MONDAY,
-                              LocalTime.of(10,0),
-                              Duration.of(50, ChronoUnit.MINUTES)));
+                  new Meeting[] {
+                      new Meeting(DayOfWeek.MONDAY,
+                                  LocalTime.of(10,0),
+                                  Duration.of(50, ChronoUnit.MINUTES))});
 
-        for (Map.Entry<String, Meeting> entry : cases.entrySet()) {
+        for (Map.Entry<String, Meeting[]> entry : cases.entrySet()) {
             ScheduleParser sp = new ScheduleParser(entry.getKey());
-            Assert.assertEquals("Meetings should parse equivalently",
-                                entry.getValue(),
-                                sp.iterator().next());
+            Meeting[] meetings = entry.getValue();
+            int i = 0;
+            for (Meeting m : sp) {
+                Assert.assertTrue("", i < meetings.length);
+                Assert.assertEquals("Meetings should parse equivalently",
+                                    meetings[i++],
+                                    m);
+            }
         }
     }
 
