@@ -122,9 +122,33 @@ public class ScheduleParser
             LocalTime endTime = LocalTime.parse(startAndEndTime[1]);
 
             if (amPm == 'p') {
-                if (mCurrentStartTime.isBefore(LocalTime.NOON))
+                // Getting this part of the parse correct is REALLY
+                // HARD because classfinder uses a VERY ambiguous
+                // format for class times.
+                //
+                // As a hack, we'll make a BIG assumption.
+
+                // When endTime is "earlier" than startTime, start is
+                // an AM time and end is a PM.
+                // OTHERWISE: both are pm times when there's a "p"
+                boolean startShouldAdd = false;
+                boolean endShouldAdd   = false;
+                if (endTime.isBefore(mCurrentStartTime)) {
+                    startShouldAdd = false;
+                    endShouldAdd   = true;
+                } else {
+                    startShouldAdd = true;
+                    endShouldAdd   = true;
+                }
+
+                if (mCurrentStartTime.isAfter(LocalTime.NOON))
+                    startShouldAdd = false;
+                if (endTime.isAfter(LocalTime.NOON))
+                    endShouldAdd = false;
+
+                if (startShouldAdd)
                     mCurrentStartTime = mCurrentStartTime.plusHours(12);
-                if (endTime.isBefore(LocalTime.NOON))
+                if (endShouldAdd)
                     endTime = endTime.plusHours(12);
             }
 
