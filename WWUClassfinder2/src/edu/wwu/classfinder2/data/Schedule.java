@@ -3,6 +3,8 @@ package edu.wwu.classfinder2.data;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -27,9 +29,7 @@ public class Schedule {
     public static Schedule fromString(String scheduleStr) {
         Schedule schedule = new Schedule();
         List<Meeting> meetings = new ArrayList<Meeting>();
-
-
-
+        CollectionUtils.addAll(meetings, new ScheduleParser(scheduleStr));
         schedule.setMeetings(meetings);
         return schedule;
     }
