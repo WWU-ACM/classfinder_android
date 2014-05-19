@@ -1,8 +1,12 @@
 package edu.wwu.classfinder2.data;
 
+import edu.wwu.classfinder2.data.Schedule;
+
 import edu.wwu.classfinder2.provider.CourseContract;
 
 import android.content.ContentValues;
+
+import android.database.Cursor;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -168,6 +172,42 @@ public class Course {
             .append(mEnrolled)
             .append(mCredits)
             .toHashCode();
+    }
+
+    public static Course fromCursor(Cursor cursor) {
+        Course course = new Course();
+        int col;
+
+        col = cursor.getColumnIndex(CourseContract._ID);
+        course.setId(cursor.getLong(col));
+
+        col = cursor.getColumnIndex(CourseContract.CRN);
+        course.setCrn(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.DEPARTMENT);
+        course.setDepartment(cursor.getString(col));
+
+        col = cursor.getColumnIndex(CourseContract.COURSENUMBER);
+        course.setCourseNumber(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.NAME);
+        course.setName(cursor.getString(col));
+
+        course.setInstructor(Instructor.fromCursor(cursor));
+
+        col = cursor.getColumnIndex(CourseContract.SCHEDULE);
+        course.setSchedule(Schedule.fromString(cursor.getString(col)));
+
+        col = cursor.getColumnIndex(CourseContract.CAPACITY);
+        course.setCapacity(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.ENROLLED);
+        course.setEnrolled(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.CREDITS);
+        course.setCredits(cursor.getInt(col));
+
+        return course;
     }
 
 }
