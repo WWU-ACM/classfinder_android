@@ -141,6 +141,9 @@ public class ScheduleParser
                     endShouldAdd   = true;
                 }
 
+                // These are effectively only testing for the 12-1 pm
+                // weirdness.  Because anything from 01:00 to 11:59 pm
+                // will be parsed as "before" noon.
                 if (mCurrentStartTime.isAfter(LocalTime.NOON))
                     startShouldAdd = false;
                 if (endTime.isAfter(LocalTime.NOON))
