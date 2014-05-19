@@ -1,8 +1,15 @@
 package edu.wwu.classfinder2.data;
 
+import edu.wwu.classfinder2.data.Schedule;
+
 import edu.wwu.classfinder2.provider.CourseContract;
 
 import android.content.ContentValues;
+
+import android.database.Cursor;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Course {
 
@@ -16,7 +23,7 @@ public class Course {
 
     private String mName;
 
-    private String mInstructor;
+    private Instructor mInstructor;
 
     private Schedule mSchedule;
 
@@ -30,115 +37,178 @@ public class Course {
 
     }
 
-    public ContentValues asContentValues() {
-        ContentValues values = new ContentValues();
-
-        values.put(_ID, mId);
-        values.put(CRN, mCrn);
-        values.put(DEPARTMENT, mDepartment);
-        values.put(COURSENUMBER, mCourseNumber);
-        values.put(NAME, mName);
-        values.put(INSTRUCTOR, mInstructor);
-        values.put(SCHEDULE, mSchedule.asString());
-        values.put(CAPACITY, mCapacity);
-        values.put(ENROLLED, mEnrolled);
-        values.put(CREDITS, mCredits);
-        return values;
-    }
-
     public long getId() {
         return mId;
     }
 
-    public void setId(long mId) {
-        this.mId = mId;
+    public void setId(long id) {
+        this.mId = id;
     }
 
     public int getCrn() {
         return mCrn;
     }
 
-    public void setCrn(int mCrn) {
-        this.mCrn = mCrn;
+    public void setCrn(int crn) {
+        this.mCrn = crn;
     }
 
     public String getDepartment() {
         return mDepartment;
     }
 
-    public void setDepartment(String mDepartment) {
-        this.mDepartment = mDepartment;
+    public void setDepartment(String department) {
+        this.mDepartment = department;
     }
 
     public int getCourseNumber() {
         return mCourseNumber;
     }
 
-    public void setCourseNumber(int mCourseNumber) {
-        this.mCourseNumber = mCourseNumber;
+    public void setCourseNumber(int coursenumber) {
+        this.mCourseNumber = coursenumber;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        this.mName = name;
     }
 
-    public String getInstructor() {
+    public Instructor getInstructor() {
         return mInstructor;
     }
 
-    public void setInstructor(String mInstructor) {
-        this.mInstructor = mInstructor;
+    public void setInstructor(Instructor instructor) {
+        this.mInstructor = instructor;
     }
 
     public Schedule getSchedule() {
         return mSchedule;
     }
 
-    public void setSchedule(Schedule mSchedule) {
-        this.mSchedule = mSchedule;
+    public void setSchedule(Schedule schedule) {
+        this.mSchedule = schedule;
     }
-
 
     public int getCapacity() {
         return mCapacity;
     }
 
-    public void setCapacity(int mCapacity) {
-        this.mCapacity = mCapacity;
+    public void setCapacity(int capacity) {
+        this.mCapacity = capacity;
     }
 
     public int getEnrolled() {
         return mEnrolled;
     }
 
-    public void setEnrolled(int mEnrolled) {
-        this.mEnrolled = mEnrolled;
+    public void setEnrolled(int enrolled) {
+        this.mEnrolled = enrolled;
     }
 
     public int getCredits() {
         return mCredits;
     }
 
-    public void setCredits(int mCredits) {
-        this.mCredits = mCredits;
+    public void setCredits(int credits) {
+        this.mCredits = credits;
     }
 
-    public static final String CONTENT_URI  =
-        "content://classfinder/courses";
+    public ContentValues asContentValues() {
+        return asContentValues(new ContentValues());
+    }
 
-    // Database keys for this class
-    public static final String _ID          = "_id";
-    public static final String CRN          = "_crn";
-    public static final String DEPARTMENT   = "_department";
-    public static final String COURSENUMBER = "_coursenumber";
-    public static final String NAME         = "_name";
-    public static final String INSTRUCTOR   = "_instructor";
-    public static final String SCHEDULE     = "_schedule";
-    public static final String CAPACITY     = "_capacity";
-    public static final String ENROLLED     = "_enrolled";
-    public static final String CREDITS      = "_credits";
+    public ContentValues asContentValues(ContentValues values) {
+
+        values.put(CourseContract._ID, mId);
+        values.put(CourseContract.CRN, mCrn);
+        values.put(CourseContract.DEPARTMENT, mDepartment);
+        values.put(CourseContract.COURSENUMBER, mCourseNumber);
+        values.put(CourseContract.NAME, mName);
+        mInstructor.asContentValues(values);
+        values.put(CourseContract.SCHEDULE,
+                   mSchedule != null ? mSchedule.asString() : "");
+        values.put(CourseContract.CAPACITY, mCapacity);
+        values.put(CourseContract.ENROLLED, mEnrolled);
+        values.put(CourseContract.CREDITS, mCredits);
+
+        return values;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj == this || !(obj instanceof Course)) {
+            return false;
+        }
+
+        Course oCourse = (Course) obj;
+        return new EqualsBuilder()
+            .append(mId, oCourse.mId)
+            .append(mCrn, oCourse.mCrn)
+            .append(mDepartment, oCourse.mDepartment)
+            .append(mCourseNumber, oCourse.mCourseNumber)
+            .append(mName, oCourse.mName)
+            .append(mInstructor, oCourse.mInstructor)
+            .append(mSchedule, oCourse.mSchedule)
+            .append(mCapacity, oCourse.mCapacity)
+            .append(mEnrolled, oCourse.mEnrolled)
+            .append(mCredits, oCourse.mCredits)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+            .append(mId)
+            .append(mCrn)
+            .append(mDepartment)
+            .append(mCourseNumber)
+            .append(mName)
+            .append(mInstructor)
+            .append(mSchedule)
+            .append(mCapacity)
+            .append(mEnrolled)
+            .append(mCredits)
+            .toHashCode();
+    }
+
+    public static Course fromCursor(Cursor cursor) {
+        Course course = new Course();
+        int col;
+
+        col = cursor.getColumnIndex(CourseContract._ID);
+        course.setId(cursor.getLong(col));
+
+        col = cursor.getColumnIndex(CourseContract.CRN);
+        course.setCrn(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.DEPARTMENT);
+        course.setDepartment(cursor.getString(col));
+
+        col = cursor.getColumnIndex(CourseContract.COURSENUMBER);
+        course.setCourseNumber(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.NAME);
+        course.setName(cursor.getString(col));
+
+        course.setInstructor(Instructor.fromCursor(cursor));
+
+        col = cursor.getColumnIndex(CourseContract.SCHEDULE);
+        course.setSchedule(Schedule.fromString(cursor.getString(col)));
+
+        col = cursor.getColumnIndex(CourseContract.CAPACITY);
+        course.setCapacity(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.ENROLLED);
+        course.setEnrolled(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.CREDITS);
+        course.setCredits(cursor.getInt(col));
+
+        return course;
+    }
+
 }
