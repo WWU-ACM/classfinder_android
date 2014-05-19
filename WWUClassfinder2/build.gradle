@@ -20,6 +20,7 @@ apply plugin: 'android'
 apply plugin: 'android-test'
 
 android {
+    
     packagingOptions {
         exclude 'LICENSE.txt'
         exclude 'META-INF/LICENSE'
@@ -27,6 +28,7 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/NOTICE.txt'
     }
+    
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
@@ -37,6 +39,7 @@ android {
         versionName "1.0.0-SNAPSHOT"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
+    
     buildTypes {
         release {
             runProguard false
