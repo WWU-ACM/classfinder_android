@@ -10,6 +10,8 @@ import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.Duration;
 import org.threeten.bp.LocalTime;
 
+import org.threeten.bp.temporal.ChronoUnit;
+
 public class Schedule {
 
     private List<Meeting> mMeetings;
@@ -105,6 +107,48 @@ public class Schedule {
                 .append(mStartTime)
                 .append(mDuration)
                 .toHashCode();
+        }
+
+        @Override
+        public String toString() {
+            char dayChar;
+            switch (mDay) {
+            case SUNDAY:    dayChar = 'U';
+                break;
+            case MONDAY:    dayChar = 'M';
+                break;
+            case TUESDAY:   dayChar = 'T';
+                break;
+            case WEDNESDAY: dayChar = 'W';
+                break;
+            case THURSDAY:  dayChar = 'R';
+                break;
+            case FRIDAY:    dayChar = 'F';
+                break;
+            case SATURDAY:  dayChar = 'S';
+                break;
+            default: dayChar = 'X';
+                break;
+            }
+
+            LocalTime start;
+            String amOrPm;
+
+            if (mStartTime.isAfter(LocalTime.NOON)) {
+                amOrPm = "pm";
+                start = mStartTime.minus(12, ChronoUnit.HOURS);
+            } else {
+                amOrPm = "am";
+                start = mStartTime;
+            }
+
+            LocalTime end = start.plus(mDuration);
+
+            return String.format("%c %s-%s %s",
+                                 dayChar,
+                                 start.toString(),
+                                 end.toString(),
+                                 amOrPm);
         }
     }
 
