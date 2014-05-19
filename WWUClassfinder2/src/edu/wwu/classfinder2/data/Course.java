@@ -4,6 +4,9 @@ import edu.wwu.classfinder2.provider.CourseContract;
 
 import android.content.ContentValues;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Course {
 
     private long mId = -1;
@@ -126,6 +129,43 @@ public class Course {
 
     public void setCredits(int credits) {
         this.mCredits = credits;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj == this || !(obj instanceof Course)) {
+            return false;
+        }
+
+        Course oCourse = (Course) obj;
+        return new EqualsBuilder()
+            .append(mId, oCourse.mId)
+            .append(mCrn, oCourse.mCrn)
+            .append(mDepartment, oCourse.mDepartment)
+            .append(mCourseNumber, oCourse.mCourseNumber)
+            .append(mName, oCourse.mName)
+            .append(mInstructor, oCourse.mInstructor)
+            .append(mSchedule, oCourse.mSchedule)
+            .append(mCapacity, oCourse.mCapacity)
+            .append(mEnrolled, oCourse.mEnrolled)
+            .append(mCredits, oCourse.mCredits)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+            .append(mId)
+            .append(mCrn)
+            .append(mDepartment)
+            .append(mCourseNumber)
+            .append(mName)
+            .append(mInstructor)
+            .append(mSchedule)
+            .append(mCapacity)
+            .append(mEnrolled)
+            .append(mCredits)
+            .toHashCode();
     }
 
     public static final String CONTENT_URI  =
