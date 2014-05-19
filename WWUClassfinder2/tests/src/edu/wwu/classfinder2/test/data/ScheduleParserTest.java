@@ -36,6 +36,19 @@ public class ScheduleParserTest extends TestCase {
                       new Meeting(DayOfWeek.THURSDAY,
                                   LocalTime.of(12,0),
                                   Duration.of(110, ChronoUnit.MINUTES))});
+        cases.put("T 00:00-04:00 am",
+                  new Meeting[] {
+                      new Meeting(DayOfWeek.TUESDAY,
+                                  LocalTime.of(0,0),
+                                  Duration.of(4, ChronoUnit.HOURS))});
+        cases.put("F 01:50-03:50 pm;S 12:30-12:50 pm",
+                  new Meeting[] {
+                      new Meeting(DayOfWeek.FRIDAY,
+                                  LocalTime.of(13,50),
+                                  Duration.of(2, ChronoUnit.HOURS)),
+                      new Meeting(DayOfWeek.SATURDAY,
+                                  LocalTime.of(12,30),
+                                  Duration.of(20, ChronoUnit.MINUTES))});
 
         for (Map.Entry<String, Meeting[]> entry : cases.entrySet()) {
             ScheduleParser sp = new ScheduleParser(entry.getKey());
