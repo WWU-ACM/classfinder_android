@@ -52,20 +52,6 @@ public class Instructor {
         return values;
     }
 
-    public static Instructor fromCursor(Cursor cursor) {
-        Instructor instructor = new Instructor();
-
-        int col = cursor.getColumnIndex(InstructorContract._ID);
-        instructor.setId(cursor.getLong(col));
-
-        col = cursor.getColumnIndex(InstructorContract.FIRST_NAME);
-        instructor.setFirstName(cursor.getString(col));
-
-        col = cursor.getColumnIndex(InstructorContract.LAST_NAME);
-        instructor.setLastName(cursor.getString(col));
-        return instructor;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj == this || !(obj instanceof Instructor)) {
@@ -87,6 +73,20 @@ public class Instructor {
             .append(mFirstName)
             .append(mLastName)
             .toHashCode();
+    }
+
+    public static Instructor fromCursor(Cursor cursor) {
+        Instructor instructor = new Instructor();
+
+        int col = cursor.getColumnIndex(InstructorContract._ID);
+        instructor.setId(cursor.getLong(col));
+
+        col = cursor.getColumnIndex(InstructorContract.FIRST_NAME);
+        instructor.setFirstName(cursor.getString(col));
+
+        col = cursor.getColumnIndex(InstructorContract.LAST_NAME);
+        instructor.setLastName(cursor.getString(col));
+        return instructor;
     }
 
 }
