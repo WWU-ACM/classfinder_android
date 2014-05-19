@@ -98,7 +98,10 @@ public class ScheduleParser
             case 'R': return DayOfWeek.THURSDAY;
             case 'F': return DayOfWeek.FRIDAY;
             case 'S': return DayOfWeek.SATURDAY;
-            default: return null;
+            default:
+                throw new IllegalArgumentException(String
+                                                   .format("dayChar: %c",
+                                                           dayChar));
             }
         }
 
