@@ -38,16 +38,18 @@ public class Course {
     }
 
     public ContentValues asContentValues(ContentValues values) {
-        values.put(_ID, mId);
-        values.put(CRN, mCrn);
-        values.put(DEPARTMENT, mDepartment);
-        values.put(COURSENUMBER, mCourseNumber);
-        values.put(NAME, mName);
+
+        values.put(CourseContract._ID, mId);
+        values.put(CourseContract.CRN, mCrn);
+        values.put(CourseContract.DEPARTMENT, mDepartment);
+        values.put(CourseContract.COURSENUMBER, mCourseNumber);
+        values.put(CourseContract.NAME, mName);
         mInstructor.asContentValues(values);
-        values.put(SCHEDULE, mSchedule.asString());
-        values.put(CAPACITY, mCapacity);
-        values.put(ENROLLED, mEnrolled);
-        values.put(CREDITS, mCredits);
+        values.put(CourseContract.SCHEDULE, mSchedule.asString());
+        values.put(CourseContract.CAPACITY, mCapacity);
+        values.put(CourseContract.ENROLLED, mEnrolled);
+        values.put(CourseContract.CREDITS, mCredits);
+
         return values;
     }
 
@@ -168,18 +170,4 @@ public class Course {
             .toHashCode();
     }
 
-    public static final String CONTENT_URI  =
-        "content://classfinder/courses";
-
-    // Database keys for this class
-    public static final String _ID          = "_id";
-    public static final String CRN          = "_crn";
-    public static final String DEPARTMENT   = "_department";
-    public static final String COURSENUMBER = "_coursenumber";
-    public static final String NAME         = "_name";
-    public static final String INSTRUCTOR   = "_instructor";
-    public static final String SCHEDULE     = "_schedule";
-    public static final String CAPACITY     = "_capacity";
-    public static final String ENROLLED     = "_enrolled";
-    public static final String CREDITS      = "_credits";
 }
