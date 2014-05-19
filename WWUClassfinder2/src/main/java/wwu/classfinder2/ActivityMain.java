@@ -202,7 +202,7 @@ public class ActivityMain extends ActionBarActivity {
             // Reuse convertView if we can
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.drawer_menu_item, null);
+                convertView = inflater.inflate(R.layout.drawer_menu_item, parent, false);
             }
             // Set Image and Text
             TextView tv = (TextView) convertView.findViewById(R.id.drawer_menu_item_title);

@@ -30,7 +30,7 @@ public class FragmentPlanner extends Fragment implements FragmentPlannerList.OnI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         FragmentManager fm = getChildFragmentManager();
-        View view = inflater.inflate(R.layout.fragment_planner, null);
+        View view = inflater.inflate(R.layout.fragment_planner, container, false);
 
         // Don't do anything if we're being restored from a previous state
         if (savedInstanceState != null) {

@@ -30,8 +30,8 @@ public class FragmentPlannerList extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup contrainer, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_planner_list, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_planner_list, container, false);
         mContainerView = (ViewGroup) view.findViewById(R.id.planner_container);
         addItem("");
         addItem("");

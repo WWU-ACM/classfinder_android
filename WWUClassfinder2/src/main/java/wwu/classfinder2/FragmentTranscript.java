@@ -49,7 +49,7 @@ public class FragmentTranscript extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_transcript, null);
+        final View view = inflater.inflate(R.layout.fragment_transcript, container, false);
 
         Button button = (Button) view.findViewById(R.id.login);
         button.setOnClickListener(new View.OnClickListener() {
