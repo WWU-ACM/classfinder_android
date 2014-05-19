@@ -35,7 +35,8 @@
             android:syncable="true"/>
 
         <service
-            android:name="edu.wwu.classfinder2.auth.AuthenticatorService">
+            android:name="edu.wwu.classfinder2.auth.AuthenticatorService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -46,7 +47,7 @@
 
         <service
             android:name="edu.wwu.classfinder2.data.sync.CourseSyncService"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
