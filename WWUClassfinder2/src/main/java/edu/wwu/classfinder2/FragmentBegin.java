@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentStart extends Fragment {
+public class FragmentBegin extends Fragment {
 
-    public FragmentStart() {
+    public FragmentBegin() {
 
     }
 

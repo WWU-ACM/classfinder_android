@@ -70,10 +70,10 @@ public class FragmentPlanner extends Fragment implements FragmentPlannerList.OnI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.add:
-            FragmentPlannerList fpl = (FragmentPlannerList) getChildFragmentManager().findFragmentByTag("PlannerList");
-            fpl.addItem("");
-            return true;
+            case R.id.add:
+                FragmentPlannerList fpl = (FragmentPlannerList) getChildFragmentManager().findFragmentByTag("PlannerList");
+                fpl.addItem("");
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

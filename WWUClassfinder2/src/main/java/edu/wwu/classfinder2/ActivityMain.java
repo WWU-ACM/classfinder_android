@@ -42,7 +42,6 @@ public class ActivityMain extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private Account mAccount;
     private ContentResolver mResolver;
-    private static final String[] TAG = {"FRAG_TRANSCRIPT", "FRAG_SEARCH", "FRAG_PLANNER", "FRAG_CALENDAR", "FRAG_BEGIN"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,7 @@ public class ActivityMain extends ActionBarActivity {
         // Open the drawer only on startup
         if (savedInstanceState == null) {
             mDrawerLayout.openDrawer(mDrawerList);
-            getFragmentManager().beginTransaction().add(R.id.drawer_content, new FragmentStart()).commit();
+            getFragmentManager().beginTransaction().add(R.id.drawer_content, new FragmentBegin()).commit();
         }
     }
 
