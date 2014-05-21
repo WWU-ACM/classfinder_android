@@ -61,9 +61,6 @@ androidTest {
 dependencies {
     repositories {
         mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
     }
     
     compile 'com.android.support:appcompat-v7:18.0.+',
