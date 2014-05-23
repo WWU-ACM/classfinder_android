@@ -1,5 +1,6 @@
 package edu.wwu.classfinder2.provider;
 
+import android.content.ContentResolver;
 import android.content.Context;
 
 import android.net.Uri;
@@ -10,14 +11,28 @@ public final class ClassfinderContract {
 
     public static String AUTHORITY = "edu.wwu.classfinder2.provider";
 
+    public static String BASE_TYPE = "/vnd.edu.wwu.classfinder2.";
+
     public static final Uri CONTENT_URI =
         Uri.parse("content://" + AUTHORITY);
 
     public static final class CourseContract {
 
+        private static final String SUFFIX = "courses";
+
         public static final Uri CONTENT_URI =
             Uri.withAppendedPath(ClassfinderContract.CONTENT_URI,
-                                 "courses");
+                                 SUFFIX);
+
+        public static final String CONTENT_TYPE =
+            ContentResolver.CURSOR_DIR_BASE_TYPE
+            + ClassfinderContract.BASE_TYPE
+            + SUFFIX;
+
+        public static final String ITEM_CONTENT_TYPE =
+            ContentResolver.CURSOR_ITEM_BASE_TYPE
+            + ClassfinderContract.BASE_TYPE
+            + SUFFIX;
 
         public static final String TABLE = "tblCourses";
 
@@ -36,9 +51,21 @@ public final class ClassfinderContract {
 
     public static final class InstructorContract {
 
+        private static final String SUFFIX = "instructors";
+
         public static final Uri CONTENT_URI =
             Uri.withAppendedPath(ClassfinderContract.CONTENT_URI,
-                                 "instructors");
+                                 SUFFIX);
+
+        public static final String CONTENT_TYPE =
+            ContentResolver.CURSOR_DIR_BASE_TYPE
+            + ClassfinderContract.BASE_TYPE
+            + SUFFIX;
+
+        public static final String ITEM_CONTENT_TYPE =
+            ContentResolver.CURSOR_ITEM_BASE_TYPE
+            + ClassfinderContract.BASE_TYPE
+            + SUFFIX;
 
         public static final String TABLE = "tblInstructors";
 
