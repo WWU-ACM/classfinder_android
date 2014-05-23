@@ -2,12 +2,15 @@ package edu.wwu.classfinder2.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 
 import android.database.Cursor;
 
 import android.net.Uri;
 
 import edu.wwu.classfinder2.data.CourseDbHandler;
+import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
+import edu.wwu.classfinder2.provider.ClassfinderContract.InstructorContract;
 
 public class CourseProvider extends ContentProvider {
 
@@ -15,6 +18,23 @@ public class CourseProvider extends ContentProvider {
     private static final int COURSE_ID = 2;
     private static final int INSTRUCTOR_LIST = 3;
     private static final int INSTRUCTOR_ID = 4;
+    private static final UriMatcher URI_MATCHER;
+
+    static {
+        URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "courses",
+                           COURSE_LIST);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "courses/#",
+                           COURSE_ID);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "instructors",
+                           INSTRUCTOR_LIST);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "instructors/#",
+                           INSTRUCTOR_ID);
+    }
 
     private CourseDbHandler dbHandler;
 
