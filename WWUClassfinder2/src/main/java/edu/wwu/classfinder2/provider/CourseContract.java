@@ -1,18 +1,17 @@
 package edu.wwu.classfinder2.provider;
 
+import android.content.Context;
+
 import android.net.Uri;
+
+import edu.wwu.classfinder2.R;
 
 public final class CourseContract {
 
-    public static final Uri CONTENT_URI;
+    public static String AUTHORITY = "edu.wwu.classfinder2.provider";
 
-    static {
-        Uri.Builder ub = new Uri.Builder();
-        ub.scheme("content")
-            .authority("edu.wwu.classfinder2.provider")
-            .path("courses");
-        CONTENT_URI = ub.build();
-    }
+    public static final Uri CONTENT_URI =
+        Uri.parse("content://" + AUTHORITY);
 
     public static final String TABLE = "tblCourses";
 
