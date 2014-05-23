@@ -7,10 +7,15 @@ import android.database.Cursor;
 
 import android.net.Uri;
 
+import edu.wwu.classfinder2.data.CourseDbHandler;
+
 public class CourseProvider extends ContentProvider {
+
+    private CourseDbHandler dbHandler;
 
     @Override
     public boolean onCreate() {
+        this.dbHandler = new CourseDbHandler(getContext());
         return true;
     }
 
