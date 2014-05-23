@@ -11,6 +11,11 @@ import edu.wwu.classfinder2.data.CourseDbHandler;
 
 public class CourseProvider extends ContentProvider {
 
+    private static final int COURSE_LIST = 1;
+    private static final int COURSE_ID = 2;
+    private static final int INSTRUCTOR_LIST = 3;
+    private static final int INSTRUCTOR_ID = 4;
+
     private CourseDbHandler dbHandler;
 
     @Override
