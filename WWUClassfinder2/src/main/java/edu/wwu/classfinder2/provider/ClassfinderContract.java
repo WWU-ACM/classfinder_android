@@ -34,4 +34,19 @@ public final class ClassfinderContract {
         public static final String CREDITS      = "_credits";
     }
 
+    public static final class InstructorContract {
+
+        public static final Uri CONTENT_URI =
+            Uri.withAppendedPath(ClassfinderContract.CONTENT_URI,
+                                 "instructors");
+
+        public static final String TABLE = "tblInstructors";
+
+        // Content Provider keys
+        public static final String _ID        = "_id";
+        public static final String FIRST_NAME = "first_name";
+        public static final String LAST_NAME  = "last_name";
+
+    }
+
 }

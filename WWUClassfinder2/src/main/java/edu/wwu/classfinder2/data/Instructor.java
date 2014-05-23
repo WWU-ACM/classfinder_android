@@ -1,6 +1,7 @@
 package edu.wwu.classfinder2.data;
 
-import edu.wwu.classfinder2.provider.InstructorContract;
+import edu.wwu.classfinder2.provider
+    .ClassfinderContract.InstructorContract;
 
 import android.content.ContentValues;
 
