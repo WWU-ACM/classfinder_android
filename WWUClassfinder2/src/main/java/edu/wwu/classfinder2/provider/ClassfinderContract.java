@@ -80,8 +80,8 @@ public final class ClassfinderContract {
 
         // Content Provider keys
         public static final String _ID        = "_id";
-        public static final String FIRST_NAME = "first_name";
-        public static final String LAST_NAME  = "last_name";
+        public static final String FIRST_NAME = "_first_name";
+        public static final String LAST_NAME  = "_last_name";
 
         public static final String[] PROJECTION_ALL =
         {_ID, FIRST_NAME, LAST_NAME};
