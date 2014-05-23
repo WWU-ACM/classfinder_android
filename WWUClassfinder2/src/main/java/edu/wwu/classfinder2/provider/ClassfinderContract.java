@@ -47,6 +47,15 @@ public final class ClassfinderContract {
         public static final String CAPACITY     = "_capacity";
         public static final String ENROLLED     = "_enrolled";
         public static final String CREDITS      = "_credits";
+
+        public static final String[] PROJECTION_ALL =
+        {_ID, CRN, DEPARTMENT, COURSENUMBER,
+         NAME, INSTRUCTOR, SCHEDULE, CAPACITY,
+         ENROLLED, CREDITS};
+
+        public static final String SORT_ORDER_DEFAULT =
+            DEPARTMENT + ", " + COURSENUMBER + " ASC";
+
     }
 
     public static final class InstructorContract {
@@ -73,6 +82,12 @@ public final class ClassfinderContract {
         public static final String _ID        = "_id";
         public static final String FIRST_NAME = "first_name";
         public static final String LAST_NAME  = "last_name";
+
+        public static final String[] PROJECTION_ALL =
+        {_ID, FIRST_NAME, LAST_NAME};
+
+        public static final String SORT_ORDER_DEFAULT =
+            LAST_NAME + ", " + FIRST_NAME + " ASC";
 
     }
 
