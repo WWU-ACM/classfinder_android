@@ -46,7 +46,19 @@ public class CourseProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return new String();
+        switch (URI_MATCHER.match(uri)) {
+            case COURSE_LIST :
+                return CourseContract.DIR_CONTENT_TYPE;
+            case COURSE_ID :
+                return CourseContract.ITEM_CONTENT_TYPE;
+            case INSTRUCTOR_LIST :
+                return InstructorContract.DIR_CONTENT_TYPE;
+            case INSTRUCTOR_ID :
+                return InstructorContract.ITEM_CONTENT_TYPE;
+            default:
+                throw new IllegalArgumentException("Unsupported URI: "
+                                                   + uri);
+        }
     }
 
     @Override
