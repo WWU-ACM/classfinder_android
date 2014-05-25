@@ -64,7 +64,7 @@ public class CourseDbHandler {
         mDbHelper.close();
     }
 
-    public void insertCourse(Course course) {
+    public long insertCourse(Course course) {
 
         // Call this before asContentValues.
         // ensureInstructorExists modifies the Instructor object
@@ -73,7 +73,11 @@ public class CourseDbHandler {
         ensureInstructorExists(course.getInstructor());
 
         ContentValues values = course.asContentValues();
-        mDb.insert(CourseContract.TABLE, null, values);
+        return insertCourse(values);
+    }
+
+    public long insertCourse(ContentValues values) {
+        return mDb.insert(CourseContract.TABLE, null, values);
     }
 
     public Cursor getAllCourses() {
