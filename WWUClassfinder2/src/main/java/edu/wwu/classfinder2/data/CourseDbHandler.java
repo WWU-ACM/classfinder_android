@@ -50,8 +50,12 @@ public class CourseDbHandler {
     }
 
     public CourseDbHandler open() {
-        mDbHelper = new DatabaseHelper(mContext);
-        mDb = mDbHelper.getWritableDatabase();
+        if (mDbHelper == null) {
+            mDbHelper = new DatabaseHelper(mContext);
+        }
+        if (mDb == null) {
+            mDb = mDbHelper.getWritableDatabase();
+        }
 
         return this;
     }
