@@ -8,6 +8,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import android.database.sqlite.SQLiteQueryBuilder;
+
 import android.net.Uri;
 
 import edu.wwu.classfinder2.data.CourseDbHandler;
@@ -69,6 +71,21 @@ public class CourseProvider extends ContentProvider {
                         String selection,
                         String[] selectionArgs,
                         String sortOrder) {
+
+        switch (URI_MATCHER.match(uri)) {
+            case COURSE_LIST :
+            case COURSE_ID :
+
+                break;
+            case INSTRUCTOR_LIST :
+            case INSTRUCTOR_ID :
+
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported URI: "
+                                                   + uri);
+        }
+
         return null;
     }
 
