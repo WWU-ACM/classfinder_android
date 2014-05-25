@@ -24,7 +24,7 @@ public final class ClassfinderContract {
             Uri.withAppendedPath(ClassfinderContract.CONTENT_URI,
                                  SUFFIX);
 
-        public static final String CONTENT_TYPE =
+        public static final String DIR_CONTENT_TYPE =
             ContentResolver.CURSOR_DIR_BASE_TYPE
             + ClassfinderContract.BASE_TYPE
             + SUFFIX;
@@ -66,7 +66,7 @@ public final class ClassfinderContract {
             Uri.withAppendedPath(ClassfinderContract.CONTENT_URI,
                                  SUFFIX);
 
-        public static final String CONTENT_TYPE =
+        public static final String DIR_CONTENT_TYPE =
             ContentResolver.CURSOR_DIR_BASE_TYPE
             + ClassfinderContract.BASE_TYPE
             + SUFFIX;
