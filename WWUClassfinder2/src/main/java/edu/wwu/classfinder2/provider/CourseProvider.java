@@ -1,10 +1,12 @@
 package edu.wwu.classfinder2.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 
 import android.database.Cursor;
+import android.database.SQLException;
 
 import android.net.Uri;
 
@@ -72,7 +74,16 @@ public class CourseProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        int uriMatch = URI_MATCHER.match(uri);
+
+        if (uriMatch != COURSE_LIST) {
+            throw new IllegalArgumentException(
+                "Unsupported URI for insertion: " + uri);
+        }
+
+        dbHandler.open();
+        long id = dbHandler.insertCourse(values);
+        return getUriForId(id, uri);
     }
 
     @Override
@@ -86,5 +97,19 @@ public class CourseProvider extends ContentProvider {
                       String selection,
                       String[] selectionArgs) {
         return 0;
+    }
+
+    private Uri getUriForId(long id, Uri uri) {
+        if (id > 0) {
+            Uri itemUri = ContentUris.withAppendedId(uri, id);
+            getContext().
+                getContentResolver().
+                notifyChange(itemUri, null);
+            return itemUri;
+        }
+
+        // something went wrong:
+        throw new SQLException(
+            "Problem while inserting into uri: " + uri);
     }
 }
