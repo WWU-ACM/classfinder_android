@@ -68,6 +68,12 @@ public class CourseProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Selection for multiple courses should always include a year and
+     * quarter. If none is specified, the "current" year and quarter
+     * will be used.  With the meaning of current still
+     * to-be-determined.
+     */
     @Override
     public Cursor query(Uri uri,
                         String[] projection,
