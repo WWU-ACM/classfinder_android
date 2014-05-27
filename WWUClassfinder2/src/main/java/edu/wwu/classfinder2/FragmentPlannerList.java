@@ -3,15 +3,10 @@ package edu.wwu.classfinder2;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /* This Fragment is not a actual ListView, but a hack that achieves the same result */
@@ -49,17 +44,18 @@ public class FragmentPlannerList extends Fragment {
 
         TextView tv = (TextView) newView.findViewById(R.id.planner_item_text);
         ImageButton ib = (ImageButton) newView.findViewById(R.id.planner_item_delete);
-
         tv.setText("HELLO WORLD!");
+
         ib.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mContainerView.removeView(newView);
-                    if(mContainerView.getChildCount() == 0){
-                        view.findViewById(R.id.planner_empty).setVisibility(View.VISIBLE);
-                    }
+            @Override
+            public void onClick(View v) {
+                //mContainerView.removeView(newView);
+                newView.setVisibility(View.GONE);
+                if (mContainerView.getChildCount() == 0) {
+                    view.findViewById(R.id.planner_empty).setVisibility(View.VISIBLE);
                 }
-            });
+            }
+        });
 
         mContainerView.addView(newView, 0);
     }

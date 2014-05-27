@@ -1,24 +1,18 @@
 package edu.wwu.classfinder2;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentTranscript extends Fragment {
@@ -53,18 +47,17 @@ public class FragmentTranscript extends Fragment {
 
         Button button = (Button) view.findViewById(R.id.login);
         button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String username = ((EditText) view.findViewById(R.id.username)).getText().toString();
-                    String password = ((EditText) view.findViewById(R.id.password)).getText().toString();
-                    getTranscript(username, password);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                String username = ((EditText) view.findViewById(R.id.username)).getText().toString();
+                String password = ((EditText) view.findViewById(R.id.password)).getText().toString();
+                getTranscript(username, password);
+            }
+        });
 
         return view;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     public void getTranscript(final String username, final String password) {
 
         final WebView mWebView = new WebView(getActivity());
@@ -78,28 +71,33 @@ public class FragmentTranscript extends Fragment {
 
         mWebView.setWebViewClient(new WebViewClient() {
 
-                int tries = 0;
+            int tries = 0;
 
-                @Override
-                public void onPageFinished(WebView view, String url) {
+            // TODO: THIS IS VULNERABLE TO XSS ATTACKS!!
+            @Override
+            public void onPageFinished(WebView view, String url) {
                     /*
                      * !!!! THIS IS NOT FORWARD-COMPATABLE WITH ANDROID 4.4 (API
                      * !!!! LEVEL 19) IT WILL NOT RUN PROPERLY IF THE TARGET API
                      * !!!! LEVEL IS SET TO 19 (OR HIGHER)
+                     *
+                     * Or it might work and uh, I just had the wrong code. Leave it at 19 and see what breaks.
+                     * Google DID change WebView code in API 19, so this code can definitely break at any time.
                      */
-                    if (tries < 1) {
-                        mWebView.loadUrl("javascript:document.getElementById('username').value = '" + username + "';");
-                        mWebView.loadUrl("javascript:document.getElementById('pwd').value = '" + password + "';");
-                        mWebView.loadUrl("javascript:document.getElementsByTagName('input')[6].click();");
-                        tries++;
-                    }
-                    if (url.equals(TRANSCRIPT_URL)) {
-                        mWebView.loadUrl("javascript:JHTML.processHTML(document.documentElement.outerHTML);");
-                    } else {
-                        mWebView.loadUrl("javascript:JHTML.debugHTML(document.documentElement.outerHTML);");
-                    }
+                if (tries < 1) {
+                    mWebView.loadUrl("javascript:document.getElementById('username').value = '" + username + "';" +
+                            "javascript:document.getElementById('pwd').value = '" + password + "';" +
+                            "javascript:document.getElementsByTagName('input')[6].dispatchEvent(new MouseEvent('click'));");
+                    tries++;
                 }
-            });
+                if (url.equals(TRANSCRIPT_URL)) {
+                    mWebView.loadUrl("javascript:JHTML.processHTML(document.documentElement.outerHTML);");
+                } else {
+                    mWebView.loadUrl("javascript:JHTML.debugHTML(document.documentElement.outerHTML);");
+                    // TODO: Just show a failed dialog here
+                }
+            }
+        });
 
         mWebView.loadUrl(TRANSCRIPT_URL);
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 public class FragmentBegin extends Fragment {
 
     public FragmentBegin() {
-
     }
 
     @Override

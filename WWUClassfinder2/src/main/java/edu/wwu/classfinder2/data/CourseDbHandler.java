@@ -2,7 +2,6 @@ package edu.wwu.classfinder2.data;
 
 import android.content.ContentValues;
 import android.content.Context;
-
 import android.database.Cursor;
 
 import android.database.sqlite.SQLiteDatabase;

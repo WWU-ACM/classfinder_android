@@ -89,7 +89,7 @@ public class ActivityMain extends ActionBarActivity {
         // Reset title on configuration change
         if (savedInstanceState != null && savedInstanceState.getString("MTITLE") != null) {
             mTitle = savedInstanceState.getString("MTITLE");
-            if (savedInstanceState.getBoolean("DRAWER_OPEN") != true){
+            if (!savedInstanceState.getBoolean("DRAWER_OPEN")) {
                 getSupportActionBar().setTitle(mTitle);
             }
         }
@@ -110,10 +110,7 @@ public class ActivityMain extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -220,7 +217,7 @@ public class ActivityMain extends ActionBarActivity {
 
         Activity activity;
 
-        public DrawerItemClickListener(Activity activity){
+        public DrawerItemClickListener(Activity activity) {
             this.activity = activity;
         }
 
@@ -229,7 +226,7 @@ public class ActivityMain extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             // Hide the keyboard
-            InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 
             Fragment fragment;
