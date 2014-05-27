@@ -1,5 +1,7 @@
 package edu.wwu.classfinder2.provider;
 
+import java.util.Calendar;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -15,6 +17,7 @@ import android.net.Uri;
 
 import android.text.TextUtils;
 
+import edu.wwu.classfinder2.data.Course;
 import edu.wwu.classfinder2.data.CourseDbHandler;
 import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 import edu.wwu.classfinder2.provider.ClassfinderContract.InstructorContract;
@@ -68,6 +71,12 @@ public class CourseProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Selection for multiple courses should always include a year and
+     * quarter. If none is specified, the "current" year and quarter
+     * will be used.  With the meaning of current still
+     * to-be-determined.
+     */
     @Override
     public Cursor query(Uri uri,
                         String[] projection,
@@ -80,10 +89,14 @@ public class CourseProvider extends ContentProvider {
             case COURSE_ID :
                 builder.appendWhere(CourseContract._ID + " = ");
                 builder.appendWhereEscapeString(uri.getLastPathSegment());
+                builder.setTables(CourseContract.TABLE);
+                break;
+
             case COURSE_LIST :
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = CourseContract.SORT_ORDER_DEFAULT;
                 }
+                ensureYearAndQuarter(builder, selection);
                 builder.setTables(CourseContract.TABLE);
                 break;
 
@@ -147,5 +160,57 @@ public class CourseProvider extends ContentProvider {
         // something went wrong:
         throw new SQLException(
             "Problem while inserting into uri: " + uri);
+    }
+
+    private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
+                                      String selection) {
+        Calendar today = null;;
+        if (!selection.contains(CourseContract.YEAR)) {
+            today = Calendar.getInstance();
+
+            builder.appendWhere(CourseContract.YEAR + " = ");
+            builder.appendWhereEscapeString(
+                Integer.toString(today.get(Calendar.YEAR)));
+        }
+
+        if (!selection.contains(CourseContract.QUARTER)) {
+            if (today == null)
+                today = Calendar.getInstance();
+
+            builder.appendWhere(CourseContract.QUARTER + " = ");
+            builder.appendWhereEscapeString(
+                Integer.toString(
+                    getQuarterForMonth(today.get(Calendar.MONTH))));
+        }
+    }
+
+    private int getQuarterForMonth(int month) {
+        switch (month) {
+            // Leading up to fall
+            case Calendar.JUNE:
+            case Calendar.JULY:
+            case Calendar.AUGUST:
+            case Calendar.SEPTEMBER:
+                return Course.FALL;
+
+            // Leading up to winter
+            case Calendar.OCTOBER:
+            case Calendar.NOVEMBER:
+            case Calendar.DECEMBER:
+            case Calendar.JANUARY:
+                return Course.WINTER;
+
+            // Leading up to spring
+            case Calendar.FEBRUARY:
+            case Calendar.MARCH:
+                return Course.SPRING;
+
+            // Leading up to summer/fall
+            case Calendar.APRIL:
+            case Calendar.MAY:
+                return Course.SUMMER;
+            default:
+                return -1;
+        }
     }
 }

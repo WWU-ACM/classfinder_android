@@ -37,6 +37,8 @@ public class CourseDbHandler {
         + CourseContract.CAPACITY     + " INTEGER, "
         + CourseContract.ENROLLED     + " INTEGER, "
         + CourseContract.CREDITS      + " INTEGER, "
+        + CourseContract.YEAR         + " INTEGER, "
+        + CourseContract.QUARTER      + " INTEGER, "
         + "FOREIGN KEY(" + CourseContract.INSTRUCTOR
                          + ") REFERENCES " + InstructorContract.TABLE;
 

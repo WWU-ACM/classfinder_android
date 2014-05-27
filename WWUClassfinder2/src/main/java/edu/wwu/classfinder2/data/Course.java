@@ -1,17 +1,21 @@
 package edu.wwu.classfinder2.data;
 
-import edu.wwu.classfinder2.data.Schedule;
-
-import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
-
 import android.content.ContentValues;
 
 import android.database.Cursor;
+
+import edu.wwu.classfinder2.data.Schedule;
+import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Course {
+
+    public static final int FALL = 0;
+    public static final int WINTER = 1;
+    public static final int SPRING = 2;
+    public static final int SUMMER = 3;
 
     private long mId = -1;
 
@@ -32,6 +36,10 @@ public class Course {
     private int mEnrolled;
 
     private int mCredits;
+
+    private int mYear;
+
+    private int mQuarter;
 
     public Course() {
 
@@ -117,6 +125,22 @@ public class Course {
         this.mCredits = credits;
     }
 
+    public int getYear() {
+        return mYear;
+    }
+
+    public void setYear(int year) {
+        this.mYear = year;
+    }
+
+    public int getQuarter() {
+        return mQuarter;
+    }
+
+    public void setQuarter(int quarter) {
+        this.mQuarter = quarter;
+    }
+
     public ContentValues asContentValues() {
         return asContentValues(new ContentValues());
     }
@@ -134,6 +158,8 @@ public class Course {
         values.put(CourseContract.CAPACITY, mCapacity);
         values.put(CourseContract.ENROLLED, mEnrolled);
         values.put(CourseContract.CREDITS, mCredits);
+        values.put(CourseContract.YEAR, mYear);
+        values.put(CourseContract.QUARTER, mQuarter);
 
         return values;
     }
@@ -156,6 +182,8 @@ public class Course {
             .append(mCapacity, oCourse.mCapacity)
             .append(mEnrolled, oCourse.mEnrolled)
             .append(mCredits, oCourse.mCredits)
+            .append(mYear, oCourse.mYear)
+            .append(mQuarter, oCourse.mQuarter)
             .isEquals();
     }
 
@@ -172,6 +200,8 @@ public class Course {
             .append(mCapacity)
             .append(mEnrolled)
             .append(mCredits)
+            .append(mYear)
+            .append(mQuarter)
             .toHashCode();
     }
 
@@ -180,33 +210,50 @@ public class Course {
         int col;
 
         col = cursor.getColumnIndex(CourseContract._ID);
-        course.setId(cursor.getLong(col));
+        if (col != -1)
+            course.setId(cursor.getLong(col));
 
         col = cursor.getColumnIndex(CourseContract.CRN);
-        course.setCrn(cursor.getInt(col));
+        if (col != -1)
+            course.setCrn(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.DEPARTMENT);
-        course.setDepartment(cursor.getString(col));
+        if (col != -1)
+            course.setDepartment(cursor.getString(col));
 
         col = cursor.getColumnIndex(CourseContract.COURSENUMBER);
-        course.setCourseNumber(cursor.getInt(col));
+        if (col != -1)
+            course.setCourseNumber(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.NAME);
-        course.setName(cursor.getString(col));
+        if (col != -1)
+            course.setName(cursor.getString(col));
 
         course.setInstructor(Instructor.fromCursor(cursor));
 
         col = cursor.getColumnIndex(CourseContract.SCHEDULE);
-        course.setSchedule(Schedule.fromString(cursor.getString(col)));
+        if (col != -1)
+            course.setSchedule(Schedule.fromString(cursor.getString(col)));
 
         col = cursor.getColumnIndex(CourseContract.CAPACITY);
-        course.setCapacity(cursor.getInt(col));
+        if (col != -1)
+            course.setCapacity(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.ENROLLED);
-        course.setEnrolled(cursor.getInt(col));
+        if (col != -1)
+            course.setEnrolled(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.CREDITS);
-        course.setCredits(cursor.getInt(col));
+        if (col != -1)
+            course.setCredits(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.YEAR);
+        if (col != -1)
+            course.setYear(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.QUARTER);
+        if (col != -1)
+            course.setQuarter(cursor.getInt(col));
 
         return course;
     }
