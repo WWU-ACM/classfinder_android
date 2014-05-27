@@ -32,6 +32,10 @@ public class Course {
 
     private int mCredits;
 
+    private int mYear;
+
+    private int mQuarter;
+
     public Course() {
 
     }
@@ -116,6 +120,22 @@ public class Course {
         this.mCredits = credits;
     }
 
+    public int getYear() {
+        return mYear;
+    }
+
+    public void setYear(int year) {
+        this.mYear = year;
+    }
+
+    public int getQuarter() {
+        return mQuarter;
+    }
+
+    public void setQuarter(int quarter) {
+        this.mQuarter = quarter;
+    }
+
     public ContentValues asContentValues() {
         return asContentValues(new ContentValues());
     }
@@ -133,6 +153,8 @@ public class Course {
         values.put(CourseContract.CAPACITY, mCapacity);
         values.put(CourseContract.ENROLLED, mEnrolled);
         values.put(CourseContract.CREDITS, mCredits);
+        values.put(CourseContract.YEAR, mYear);
+        values.put(CourseContract.QUARTER, mQuarter);
 
         return values;
     }
@@ -155,6 +177,8 @@ public class Course {
             .append(mCapacity, oCourse.mCapacity)
             .append(mEnrolled, oCourse.mEnrolled)
             .append(mCredits, oCourse.mCredits)
+            .append(mYear, oCourse.mYear)
+            .append(mQuarter, oCourse.mQuarter)
             .isEquals();
     }
 
@@ -171,6 +195,8 @@ public class Course {
             .append(mCapacity)
             .append(mEnrolled)
             .append(mCredits)
+            .append(mYear)
+            .append(mQuarter)
             .toHashCode();
     }
 
@@ -206,6 +232,12 @@ public class Course {
 
         col = cursor.getColumnIndex(CourseContract.CREDITS);
         course.setCredits(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.YEAR);
+        course.setYear(cursor.getInt(col));
+
+        col = cursor.getColumnIndex(CourseContract.QUARTER);
+        course.setQuarter(cursor.getInt(col));
 
         return course;
     }
