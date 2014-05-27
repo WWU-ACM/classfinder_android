@@ -61,6 +61,11 @@ public class CourseDbHandler {
         return this;
     }
 
+    public SQLiteDatabase getDatabase() {
+        open();
+        return mDbHelper.getReadableDatabase();
+    }
+
     public void close() {
         if (mDbHelper == null) {
             mDbHelper.close();
