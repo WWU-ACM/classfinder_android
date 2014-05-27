@@ -61,7 +61,9 @@ public class CourseDbHandler {
     }
 
     public void close() {
-        mDbHelper.close();
+        if (mDbHelper == null) {
+            mDbHelper.close();
+        }
     }
 
     public long insertCourse(Course course) {
