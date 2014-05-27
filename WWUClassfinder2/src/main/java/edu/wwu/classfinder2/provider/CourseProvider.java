@@ -8,9 +8,12 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import android.net.Uri;
+
+import android.text.TextUtils;
 
 import edu.wwu.classfinder2.data.CourseDbHandler;
 import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
@@ -72,21 +75,37 @@ public class CourseProvider extends ContentProvider {
                         String[] selectionArgs,
                         String sortOrder) {
 
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         switch (URI_MATCHER.match(uri)) {
-            case COURSE_LIST :
             case COURSE_ID :
-
+                builder.appendWhere(CourseContract._ID + " = ");
+                builder.appendWhereEscapeString(uri.getLastPathSegment());
+            case COURSE_LIST :
+                if (TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = CourseContract.SORT_ORDER_DEFAULT;
+                }
+                builder.setTables(CourseContract.TABLE);
                 break;
-            case INSTRUCTOR_LIST :
+
             case INSTRUCTOR_ID :
-
+                builder.appendWhere(InstructorContract._ID + " = ");
+                builder.appendWhereEscapeString(uri.getLastPathSegment());
+            case INSTRUCTOR_LIST :
+                if (TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = InstructorContract.SORT_ORDER_DEFAULT;
+                }
+                builder.setTables(InstructorContract.TABLE);
                 break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI: "
                                                    + uri);
         }
 
-        return null;
+        SQLiteDatabase db = dbHandler.getDatabase();
+        return builder.query(db, projection,
+                             selection, selectionArgs,
+                             null, null, sortOrder);
     }
 
     @Override
