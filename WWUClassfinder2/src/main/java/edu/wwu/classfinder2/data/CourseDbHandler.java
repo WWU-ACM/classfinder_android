@@ -1,16 +1,17 @@
 package edu.wwu.classfinder2.data;
 
-import edu.wwu.classfinder2.provider
-    .ClassfinderContract.CourseContract;
-import edu.wwu.classfinder2.provider
-    .ClassfinderContract.InstructorContract;
-
 import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import edu.wwu.classfinder2.provider
+    .ClassfinderContract.CourseContract;
+import edu.wwu.classfinder2.provider
+    .ClassfinderContract.InstructorContract;
 
 public class CourseDbHandler {
 
@@ -80,10 +81,6 @@ public class CourseDbHandler {
 
     public long insertCourse(ContentValues values) {
         return mDb.insert(CourseContract.TABLE, null, values);
-    }
-
-    public Cursor getAllCourses() {
-        return null;
     }
 
     private boolean insertInstructor(Instructor instructor) {
