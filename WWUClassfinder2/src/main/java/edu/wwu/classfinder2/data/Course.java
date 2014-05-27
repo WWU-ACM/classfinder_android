@@ -1,12 +1,11 @@
 package edu.wwu.classfinder2.data;
 
-import edu.wwu.classfinder2.data.Schedule;
-
-import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
-
 import android.content.ContentValues;
 
 import android.database.Cursor;
+
+import edu.wwu.classfinder2.data.Schedule;
+import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
