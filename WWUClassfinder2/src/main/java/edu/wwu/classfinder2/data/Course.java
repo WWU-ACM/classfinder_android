@@ -205,39 +205,50 @@ public class Course {
         int col;
 
         col = cursor.getColumnIndex(CourseContract._ID);
-        course.setId(cursor.getLong(col));
+        if (col != -1)
+            course.setId(cursor.getLong(col));
 
         col = cursor.getColumnIndex(CourseContract.CRN);
-        course.setCrn(cursor.getInt(col));
+        if (col != -1)
+            course.setCrn(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.DEPARTMENT);
-        course.setDepartment(cursor.getString(col));
+        if (col != -1)
+            course.setDepartment(cursor.getString(col));
 
         col = cursor.getColumnIndex(CourseContract.COURSENUMBER);
-        course.setCourseNumber(cursor.getInt(col));
+        if (col != -1)
+            course.setCourseNumber(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.NAME);
-        course.setName(cursor.getString(col));
+        if (col != -1)
+            course.setName(cursor.getString(col));
 
         course.setInstructor(Instructor.fromCursor(cursor));
 
         col = cursor.getColumnIndex(CourseContract.SCHEDULE);
-        course.setSchedule(Schedule.fromString(cursor.getString(col)));
+        if (col != -1)
+            course.setSchedule(Schedule.fromString(cursor.getString(col)));
 
         col = cursor.getColumnIndex(CourseContract.CAPACITY);
-        course.setCapacity(cursor.getInt(col));
+        if (col != -1)
+            course.setCapacity(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.ENROLLED);
-        course.setEnrolled(cursor.getInt(col));
+        if (col != -1)
+            course.setEnrolled(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.CREDITS);
-        course.setCredits(cursor.getInt(col));
+        if (col != -1)
+            course.setCredits(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.YEAR);
-        course.setYear(cursor.getInt(col));
+        if (col != -1)
+            course.setYear(cursor.getInt(col));
 
         col = cursor.getColumnIndex(CourseContract.QUARTER);
-        course.setQuarter(cursor.getInt(col));
+        if (col != -1)
+            course.setQuarter(cursor.getInt(col));
 
         return course;
     }

@@ -80,13 +80,17 @@ public class Instructor {
         Instructor instructor = new Instructor();
 
         int col = cursor.getColumnIndex(InstructorContract._ID);
-        instructor.setId(cursor.getLong(col));
+        if (col != -1)
+            instructor.setId(cursor.getLong(col));
 
         col = cursor.getColumnIndex(InstructorContract.FIRST_NAME);
-        instructor.setFirstName(cursor.getString(col));
+        if (col != -1)
+            instructor.setFirstName(cursor.getString(col));
 
         col = cursor.getColumnIndex(InstructorContract.LAST_NAME);
-        instructor.setLastName(cursor.getString(col));
+        if (col != -1)
+            instructor.setLastName(cursor.getString(col));
+
         return instructor;
     }
 
