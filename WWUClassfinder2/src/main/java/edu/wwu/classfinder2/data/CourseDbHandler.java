@@ -1,14 +1,17 @@
 package edu.wwu.classfinder2.data;
 
-import edu.wwu.classfinder2.provider.CourseContract;
-import edu.wwu.classfinder2.provider.InstructorContract;
-
 import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import edu.wwu.classfinder2.provider
+    .ClassfinderContract.CourseContract;
+import edu.wwu.classfinder2.provider
+    .ClassfinderContract.InstructorContract;
 
 public class CourseDbHandler {
 
@@ -48,17 +51,28 @@ public class CourseDbHandler {
     }
 
     public CourseDbHandler open() {
-        mDbHelper = new DatabaseHelper(mContext);
-        mDb = mDbHelper.getWritableDatabase();
+        if (mDbHelper == null) {
+            mDbHelper = new DatabaseHelper(mContext);
+        }
+        if (mDb == null) {
+            mDb = mDbHelper.getWritableDatabase();
+        }
 
         return this;
     }
 
-    public void close() {
-        mDbHelper.close();
+    public SQLiteDatabase getDatabase() {
+        open();
+        return mDbHelper.getReadableDatabase();
     }
 
-    public void insertCourse(Course course) {
+    public void close() {
+        if (mDbHelper == null) {
+            mDbHelper.close();
+        }
+    }
+
+    public long insertCourse(Course course) {
 
         // Call this before asContentValues.
         // ensureInstructorExists modifies the Instructor object
@@ -67,11 +81,11 @@ public class CourseDbHandler {
         ensureInstructorExists(course.getInstructor());
 
         ContentValues values = course.asContentValues();
-        mDb.insert(CourseContract.TABLE, null, values);
+        return insertCourse(values);
     }
 
-    public Cursor getAllCourses() {
-        return null;
+    public long insertCourse(ContentValues values) {
+        return mDb.insert(CourseContract.TABLE, null, values);
     }
 
     private boolean insertInstructor(Instructor instructor) {
