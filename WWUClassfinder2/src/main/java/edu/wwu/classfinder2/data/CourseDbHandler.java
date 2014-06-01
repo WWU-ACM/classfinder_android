@@ -1,7 +1,11 @@
 package edu.wwu.classfinder2.data;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import android.content.ContentValues;
 import android.content.Context;
+
 import android.database.Cursor;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -174,6 +178,8 @@ public class CourseDbHandler {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_INSTRUCTOR_TABLE);
             db.execSQL(CREATE_COURSE_TABLE);
+            db.execSQL(CREATE_GLOBAL_TABLE);
+            initGlobals(db);
         }
 
         @Override
@@ -186,6 +192,16 @@ public class CourseDbHandler {
         public void onDowngrade(SQLiteDatabase db,
                                 int oldVersion,
                                 int newVersion) {
+        }
+
+        public void initGlobals(SQLiteDatabase db) {
+            for (Map.Entry<String, String> entry:
+                     GLOBALS.DEFAULTS.entrySet()) {
+                ContentValues values = new ContentValues();
+                values.put(GLOBALS.KEY, entry.getKey());
+                values.put(GLOBALS.VALUE, entry.getValue());
+                db.insert(GLOBALS.TABLE, null, values);
+            }
         }
 
     }
@@ -203,6 +219,14 @@ public class CourseDbHandler {
         public static final String[] PROJECTION = {VALUE};
 
         public static final String CURRENT_TERM = "_currentTerm";
+
+        public static final Map<String, String> DEFAULTS;
+
+        static {
+            DEFAULTS = new TreeMap<String, String>();
+            DEFAULTS.put(CURRENT_TERM, "201440");
+        }
+
 
     }
 }
