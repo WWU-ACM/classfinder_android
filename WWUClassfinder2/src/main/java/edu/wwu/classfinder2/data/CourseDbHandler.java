@@ -24,6 +24,12 @@ public class CourseDbHandler {
     // Database Name
     private static final String DATABASE_NAME = "courses";
 
+    private static final String CREATE_GLOBAL_TABLE =
+        "CREATE TABLE " + GLOBALS.TABLE + " ("
+        + GLOBALS._ID   + " INTEGER PRIMARY KEY,"
+        + GLOBALS.KEY   + " TEXT UNIQUE,"
+        + GLOBALS.VALUE + " TEXT)";
+
     private static final String CREATE_COURSE_TABLE =
         "CREATE TABLE " + CourseContract.TABLE + " ("
         + CourseContract._ID          + " INTEGER PRIMARY KEY, "
@@ -152,6 +158,22 @@ public class CourseDbHandler {
                                 int oldVersion,
                                 int newVersion) {
         }
+
+    }
+
+    private static class GLOBALS {
+
+        private static final String TABLE = "globals";
+
+        public static final String _ID = "_id";
+        public static final String KEY = "_key";
+        public static final String VALUE = "_value";
+
+        public static final String WHERE_KEY = KEY + " = ?";
+
+        public static final String[] PROJECTION = {VALUE};
+
+        public static final String CURRENT_TERM_KEY = "_currentTerm";
 
     }
 }
