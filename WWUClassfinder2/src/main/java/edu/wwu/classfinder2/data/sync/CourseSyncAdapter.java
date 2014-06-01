@@ -24,8 +24,17 @@ import edu.wwu.classfinder2.data.Course;
 
 public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
 
+    private static final String BASE_URL =
+        "cfinder.mcyamaha.com";
+
     private static final String SUBJECT_URL =
-        "cfinder.mcyamaha.com/subjects.php";
+        BASE_URL + "/subjects.php";
+
+    private static final String PROFESSOR_URL =
+        BASE_URL + "/inst.php";
+
+    private static final String QUERY_URL =
+        BASE_URL + "/search.php";
 
     // Global variables
     // Define a variable to contain a content resolver instance
