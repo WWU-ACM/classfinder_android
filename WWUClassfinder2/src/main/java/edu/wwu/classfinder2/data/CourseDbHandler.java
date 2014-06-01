@@ -79,6 +79,10 @@ public class CourseDbHandler {
         }
     }
 
+    public Cursor getCurrentTerm() {
+        return queryForGlobal(GLOBALS.CURRENT_TERM_KEY);
+    }
+
     public long insertCourse(Course course) {
 
         // Call this before asContentValues.
@@ -133,6 +137,31 @@ public class CourseDbHandler {
         } else {
             return new Instructor();
         }
+    }
+
+    private Cursor queryForGlobal(String key) {
+        return mDb.query(true, // get one result
+                         GLOBALS.TABLE, GLOBALS.PROJECTION,
+                         GLOBALS.WHERE_KEY,
+                         new String[] {key},
+                         null,
+                         null,
+                         null,
+                         "LIMIT 1");
+    }
+
+    private long insertGlobal(String key, String value) {
+        ContentValues values = new ContentValues();
+        values.put(GLOBALS.KEY, key);
+        values.put(GLOBALS.VALUE, value);
+        return mDb.insert(GLOBALS.TABLE, null, values);
+    }
+
+    private int updateGlobal(String key, String value) {
+        ContentValues values = new ContentValues();
+        values.put(GLOBALS.VALUE, value);
+        return mDb.update(GLOBALS.TABLE, values,
+                          GLOBALS.WHERE_KEY, new String[] {key});
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
