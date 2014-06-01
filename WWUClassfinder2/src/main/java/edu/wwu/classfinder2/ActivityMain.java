@@ -1,29 +1,46 @@
 package edu.wwu.classfinder2;
 
+import java.util.Calendar;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
+
 import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import android.content.SharedPreferences.Editor;
+
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+
 import android.os.Bundle;
+
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+
 import android.support.v7.app.ActionBarActivity;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.inputmethod.InputMethodManager;
+
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import edu.wwu.classfinder2.data.Course;
 
 public class ActivityMain extends ActionBarActivity {
 
@@ -51,6 +68,8 @@ public class ActivityMain extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initTermPreference();
 
         // Add the dummy account to the Sync service
         mAccount =
@@ -264,4 +283,53 @@ public class ActivityMain extends ActionBarActivity {
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }
+
+
+    private void initTermPreference() {
+        Calendar today = Calendar.getInstance();
+
+        String term =
+            String.format("%d%d",
+                          today.get(Calendar.YEAR),
+                          getQuarterForMonth(today
+                                             .get(Calendar.MONTH)));
+
+        SharedPreferences prefs =
+            this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = prefs.edit();
+
+        prefEdit.putString(TERM_PREF, term);
+        prefEdit.apply();
+    }
+
+    private int getQuarterForMonth(int month) {
+        switch (month) {
+            // Leading up to fall
+            case Calendar.JUNE:
+            case Calendar.JULY:
+            case Calendar.AUGUST:
+            case Calendar.SEPTEMBER:
+                return Course.FALL;
+
+                // Leading up to winter
+            case Calendar.OCTOBER:
+            case Calendar.NOVEMBER:
+            case Calendar.DECEMBER:
+            case Calendar.JANUARY:
+                return Course.WINTER;
+
+                // Leading up to spring
+            case Calendar.FEBRUARY:
+            case Calendar.MARCH:
+                return Course.SPRING;
+
+                // Leading up to summer/fall
+            case Calendar.APRIL:
+            case Calendar.MAY:
+                return Course.SUMMER;
+            default:
+                return -1;
+        }
+    }
+
 }

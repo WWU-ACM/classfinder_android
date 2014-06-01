@@ -164,47 +164,13 @@ public class CourseProvider extends ContentProvider {
 
     private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
                                       String selection) {
-        Calendar today = null;;
+
         if (!selection.contains(CourseContract.TERM)) {
-            today = Calendar.getInstance();
-
-            builder.appendWhere(CourseContract.TERM + " = ");
-            String term =
-                String.format("%d%d",
-                              today.get(Calendar.YEAR),
-                              getQuarterForMonth(today
-                                                 .get(Calendar.MONTH)));
-            builder.appendWhereEscapeString(term);
+            throw new
+                IllegalArgumentException("Must include "
+                                         + CourseContract.TERM
+                                         + " in the selection clause.");
         }
     }
 
-    private int getQuarterForMonth(int month) {
-        switch (month) {
-            // Leading up to fall
-            case Calendar.JUNE:
-            case Calendar.JULY:
-            case Calendar.AUGUST:
-            case Calendar.SEPTEMBER:
-                return Course.FALL;
-
-            // Leading up to winter
-            case Calendar.OCTOBER:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-            case Calendar.JANUARY:
-                return Course.WINTER;
-
-            // Leading up to spring
-            case Calendar.FEBRUARY:
-            case Calendar.MARCH:
-                return Course.SPRING;
-
-            // Leading up to summer/fall
-            case Calendar.APRIL:
-            case Calendar.MAY:
-                return Course.SUMMER;
-            default:
-                return -1;
-        }
-    }
 }
