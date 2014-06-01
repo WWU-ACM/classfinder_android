@@ -80,7 +80,7 @@ public class CourseDbHandler {
     }
 
     public Cursor getCurrentTerm() {
-        return queryForGlobal(GLOBALS.CURRENT_TERM_KEY);
+        return queryForGlobal(GLOBALS.CURRENT_TERM);
     }
 
     public long insertCourse(Course course) {
@@ -202,7 +202,7 @@ public class CourseDbHandler {
 
         public static final String[] PROJECTION = {VALUE};
 
-        public static final String CURRENT_TERM_KEY = "_currentTerm";
+        public static final String CURRENT_TERM = "_currentTerm";
 
     }
 }
