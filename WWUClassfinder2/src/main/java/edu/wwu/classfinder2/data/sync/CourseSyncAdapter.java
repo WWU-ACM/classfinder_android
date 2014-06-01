@@ -153,10 +153,15 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
                 course.setName(reader.nextString());
 
             } else if (name.equals("proff")) {
-                // reader.nextString();
-                // course.setInstructor(null);
+                reader.nextString();
+                // This needs to actually look-up the professor name
+                // somehow.
+                // course.setInstructor(reader.nextString());
 
             } else if (name.startsWith("schedule")) {
+                reader.nextString();
+                // This needs to actually handle multiple meetings,
+                // and parsing the strings into meeting objects etc.
                 //course.setSchedule(reader.nextString());
 
             } else if (name.equals("cap")) {
