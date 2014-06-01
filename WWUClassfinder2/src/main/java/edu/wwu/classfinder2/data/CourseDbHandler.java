@@ -39,13 +39,13 @@ public class CourseDbHandler {
         + CourseContract.YEAR         + " INTEGER, "
         + CourseContract.QUARTER      + " INTEGER, "
         + "FOREIGN KEY(" + CourseContract.INSTRUCTOR
-                         + ") REFERENCES " + InstructorContract.TABLE;
+                         + ") REFERENCES " + InstructorContract.TABLE + " )";
 
     private static final String CREATE_INSTRUCTOR_TABLE =
         "CREATE TABLE " + InstructorContract.TABLE + " ("
         + InstructorContract._ID   + " INTEGER PRIMARY KEY, "
         + InstructorContract.FIRST_NAME + " TEXT, "
-        + InstructorContract.LAST_NAME + " TEXT";
+        + InstructorContract.LAST_NAME + " TEXT )";
 
     public CourseDbHandler(Context context) {
         this.mContext = context;
