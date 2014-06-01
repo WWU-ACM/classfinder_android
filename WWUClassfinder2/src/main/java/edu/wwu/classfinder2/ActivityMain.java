@@ -28,9 +28,13 @@ import android.widget.TextView;
 public class ActivityMain extends ActionBarActivity {
 
     // Constants
+
+    public static final String TERM_PREF = "current_term";
+
     // The authority for the sync adapter's content provider
     public static final String AUTHORITY =
             "edu.wwu.classfinder2.provider";
+
     // An account type, in the form of a domain name
     // The account name
     public static final String ACCOUNT = "dummyaccount";
