@@ -96,7 +96,7 @@ public class CourseProvider extends ContentProvider {
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = CourseContract.SORT_ORDER_DEFAULT;
                 }
-                ensureYearAndQuarter(builder, selection);
+                ensureTerm(builder, selection);
                 builder.setTables(CourseContract.TABLE);
                 break;
 
@@ -162,8 +162,8 @@ public class CourseProvider extends ContentProvider {
             "Problem while inserting into uri: " + uri);
     }
 
-    private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
-                                      String selection) {
+    private void ensureTerm(SQLiteQueryBuilder builder,
+                            String selection) {
 
         if (!selection.contains(CourseContract.TERM)) {
             throw new
