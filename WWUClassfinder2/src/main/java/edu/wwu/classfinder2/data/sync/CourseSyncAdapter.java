@@ -27,9 +27,6 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String SUBJECT_URL =
         "cfinder.mcyamaha.com/subjects.php";
 
-    private static final String TEST_URL =
-        "cfinder.mcyamaha.com/test.php";
-
     // Global variables
     // Define a variable to contain a content resolver instance
     Context mContext;
