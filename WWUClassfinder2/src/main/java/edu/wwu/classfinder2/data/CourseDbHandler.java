@@ -38,7 +38,8 @@ public class CourseDbHandler {
         + CourseContract.CREDITS      + " INTEGER, "
         + CourseContract.TERM         + " TEXT, "
         + "FOREIGN KEY(" + CourseContract.INSTRUCTOR
-                         + ") REFERENCES " + InstructorContract.TABLE;
+                         + ") REFERENCES " + InstructorContract.TABLE
+        + ")";
 
     private static final String CREATE_INSTRUCTOR_TABLE =
         "CREATE TABLE " + InstructorContract.TABLE + " ("
