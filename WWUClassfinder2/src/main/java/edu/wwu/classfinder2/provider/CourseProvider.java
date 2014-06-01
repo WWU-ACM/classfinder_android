@@ -165,22 +165,16 @@ public class CourseProvider extends ContentProvider {
     private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
                                       String selection) {
         Calendar today = null;;
-        if (!selection.contains(CourseContract.YEAR)) {
+        if (!selection.contains(CourseContract.TERM)) {
             today = Calendar.getInstance();
 
-            builder.appendWhere(CourseContract.YEAR + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(today.get(Calendar.YEAR)));
-        }
-
-        if (!selection.contains(CourseContract.QUARTER)) {
-            if (today == null)
-                today = Calendar.getInstance();
-
-            builder.appendWhere(CourseContract.QUARTER + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(
-                    getQuarterForMonth(today.get(Calendar.MONTH))));
+            builder.appendWhere(CourseContract.TERM + " = ");
+            String term =
+                String.format("%d%d",
+                              today.get(Calendar.YEAR),
+                              getQuarterForMonth(today
+                                                 .get(Calendar.MONTH)));
+            builder.appendWhereEscapeString(term);
         }
     }
 

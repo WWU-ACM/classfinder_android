@@ -12,10 +12,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Course {
 
-    public static final int FALL = 0;
-    public static final int WINTER = 1;
-    public static final int SPRING = 2;
-    public static final int SUMMER = 3;
+    public static final int WINTER = 10;
+    public static final int SPRING = 20;
+    public static final int SUMMER = 30;
+    public static final int FALL   = 40;
 
     private long mId = -1;
 
