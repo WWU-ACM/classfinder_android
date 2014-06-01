@@ -28,6 +28,8 @@ public class CourseProvider extends ContentProvider {
     private static final int COURSE_ID = 2;
     private static final int INSTRUCTOR_LIST = 3;
     private static final int INSTRUCTOR_ID = 4;
+    private static final int CURRENT_TERM = 5;
+
     private static final UriMatcher URI_MATCHER;
 
     static {
@@ -44,6 +46,9 @@ public class CourseProvider extends ContentProvider {
         URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
                            "instructors/#",
                            INSTRUCTOR_ID);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "currentTerm/#",
+                           CURRENT_TERM);
     }
 
     private CourseDbHandler dbHandler;
@@ -65,6 +70,8 @@ public class CourseProvider extends ContentProvider {
                 return InstructorContract.DIR_CONTENT_TYPE;
             case INSTRUCTOR_ID :
                 return InstructorContract.ITEM_CONTENT_TYPE;
+            case CURRENT_TERM :
+                return ClassfinderContract.TERM_ITEM_CONTENT_TYPE;
             default:
                 throw new IllegalArgumentException("Unsupported URI: "
                                                    + uri);
@@ -108,6 +115,10 @@ public class CourseProvider extends ContentProvider {
                     sortOrder = InstructorContract.SORT_ORDER_DEFAULT;
                 }
                 builder.setTables(InstructorContract.TABLE);
+                break;
+
+            case CURRENT_TERM :
+
                 break;
 
             default:
