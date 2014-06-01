@@ -27,7 +27,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String URL = "cfinder.mcyamaha.com/test";
+    private static final String URL = "cfinder.mcyamaha.com/test.php";
+
     // Global variables
     // Define a variable to contain a content resolver instance
     Context mContext;
