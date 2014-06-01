@@ -1,21 +1,17 @@
 package edu.wwu.classfinder2.provider;
 
-import java.util.Calendar;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
-
 import android.database.Cursor;
 import android.database.SQLException;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-
 import android.net.Uri;
-
 import android.text.TextUtils;
+
+import java.util.Calendar;
 
 import edu.wwu.classfinder2.data.Course;
 import edu.wwu.classfinder2.data.CourseDbHandler;
@@ -164,23 +160,26 @@ public class CourseProvider extends ContentProvider {
 
     private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
                                       String selection) {
-        Calendar today = null;;
-        if (!selection.contains(CourseContract.YEAR)) {
-            today = Calendar.getInstance();
-
-            builder.appendWhere(CourseContract.YEAR + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(today.get(Calendar.YEAR)));
-        }
-
-        if (!selection.contains(CourseContract.QUARTER)) {
-            if (today == null)
+        if (selection != null) {
+            Calendar today = null;
+            if (!selection.contains(CourseContract.YEAR)) {
                 today = Calendar.getInstance();
 
-            builder.appendWhere(CourseContract.QUARTER + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(
-                    getQuarterForMonth(today.get(Calendar.MONTH))));
+                builder.appendWhere(CourseContract.YEAR + " = ");
+                builder.appendWhereEscapeString(
+                        Integer.toString(today.get(Calendar.YEAR)));
+            }
+
+            if (!selection.contains(CourseContract.QUARTER)) {
+                if (today == null)
+                    today = Calendar.getInstance();
+
+                builder.appendWhere(CourseContract.QUARTER + " = ");
+                builder.appendWhereEscapeString(
+                        Integer.toString(
+                                getQuarterForMonth(today.get(Calendar.MONTH)))
+                );
+            }
         }
     }
 

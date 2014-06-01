@@ -2,22 +2,14 @@ package edu.wwu.classfinder2.data.sync;
 
 
 import android.accounts.Account;
-
 import android.app.NotificationManager;
-
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
-
 import android.os.Bundle;
-
 import android.support.v4.app.NotificationCompat;
-
-import edu.wwu.classfinder2.R;
-
-import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -26,9 +18,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.IOException;
+
+import edu.wwu.classfinder2.R;
+
 public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String URL = "cfinder.mcyamaha.com/test";
+    private static final String URL = "http://cfinder.mcyamaha.com/test.php";
     // Global variables
     // Define a variable to contain a content resolver instance
     Context mContext;

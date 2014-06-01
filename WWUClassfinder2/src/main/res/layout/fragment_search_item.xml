@@ -2,27 +2,19 @@
               android:layout_width="match_parent"
               android:layout_height="?android:listPreferredItemHeightSmall"
               android:orientation="horizontal"
-              android:showDividers="middle"
-              android:divider="?android:dividerVertical"
-              android:dividerPadding="8dp"
               android:gravity="center">
 
     <TextView
         android:id="@+id/search_item_text"
-        style="?android:textAppearanceMedium"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:clickable="true"
         android:paddingLeft="?android:listPreferredItemPaddingLeft"
-        android:background="?android:attr/selectableItemBackground"/>
-
-    <ImageButton
-        android:id="@+id/search_item_add"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/add_item"
+        android:paddingRight="?android:listPreferredItemPaddingRight"
         android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="Remove schedule"/>
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
 </LinearLayout>

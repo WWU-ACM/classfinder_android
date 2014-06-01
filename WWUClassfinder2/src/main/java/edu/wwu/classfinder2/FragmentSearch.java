@@ -1,8 +1,12 @@
 package edu.wwu.classfinder2;
 
 import android.app.Fragment;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
+
+import edu.wwu.classfinder2.data.Course;
+import edu.wwu.classfinder2.data.CourseDbHandler;
+import edu.wwu.classfinder2.data.Instructor;
+import edu.wwu.classfinder2.provider.ClassfinderContract;
 
 public class FragmentSearch extends Fragment {
 
@@ -30,6 +39,43 @@ public class FragmentSearch extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        getActivity().deleteDatabase("courses");
+
+        CourseDbHandler cdh = new CourseDbHandler(getActivity());
+        cdh.open();
+
+        Instructor instructor = new Instructor();
+        instructor.setId(1);
+        instructor.setFirstName("First Name");
+        instructor.setLastName("Last Name");
+
+        for (int i = 0; i < 100; i++){
+            Course c = new Course();
+            c.setId(i);
+            c.setYear(2013);
+            c.setName("BLABLABLA " + Integer.toString(i));
+            c.setCourseNumber(i);
+            c.setCrn(1000 + i);
+            c.setInstructor(instructor);
+            cdh.insertCourse(c);
+        }
+
+        SQLiteDatabase db = cdh.getDatabase();
+
+        Cursor c = db.rawQuery("SELECT * from " + ClassfinderContract.CourseContract.TABLE, null);
+        while (c.moveToNext()) {
+            int numCols = c.getColumnCount();
+            String result = "";
+            for (int i = 0; i < c.getColumnCount(); i++){
+                result += "'" + c.getColumnName(i) + "'" + ": '" + c.getString(i) + "' " ;
+            }
+            Log.d("HI c", result);
+        }
+
+        ContentResolver resolver = getActivity().getContentResolver();
+        Cursor d = resolver.query(ClassfinderContract.CourseContract.CONTENT_URI, null, null, null, null);
+        Log.d("HI d", Integer.toString(d.getCount()));
+
     }
 
     @Override
@@ -132,16 +178,11 @@ public class FragmentSearch extends Fragment {
             titleText.setMaxLines(1);
             this.addView(titleText);
 
-            addItem("HELLO WORLD! 01");
-            addItem("HELLO WORLD! 02");
-            addItem("HELLO WORLD! 03");
-            addItem("HELLO WORLD! 04");
-            addItem("HELLO WORLD! 05");
-            addItem("HELLO WORLD! 06");
-            addItem("HELLO WORLD! 07");
-            addItem("HELLO WORLD! 08");
-            addItem("HELLO WORLD! 09");
-            addItem("HELLO WORLD! 10");
+            addItem("HELLO WORLD! 01 wwww wwww wwww wwwww wwwwwwww wwwwwwwww wwwwwww wwww wwww");
+            addItem("HELLO WORLD! 02 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+            addItem("HELLO WORLD! 03 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+            addItem("HELLO WORLD! 04 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+            addItem("HELLO WORLD! 05 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
         }
 
         private void addItem(String text) {
@@ -149,16 +190,14 @@ public class FragmentSearch extends Fragment {
             LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.fragment_search_item, this, false);
 
             final TextView tv = (TextView) newView.findViewById(R.id.search_item_text);
-            //tv.setBackgroundColor(getResources().getColor(R.color.blue));
             tv.setText(text);
 
-            /*
             tv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tv.setBackgroundColor(getResources().getColor(R.color.blue));
+                    Log.d("HI", "CLICKED");
                 }
-            });*/
+            });
 
             this.addView(newView);
         }
