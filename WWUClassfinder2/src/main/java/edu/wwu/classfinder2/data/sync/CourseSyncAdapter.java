@@ -1,5 +1,6 @@
 package edu.wwu.classfinder2.data.sync;
 
+import java.io.IOException;
 
 import android.accounts.Account;
 
@@ -16,8 +17,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import edu.wwu.classfinder2.R;
-
-import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
