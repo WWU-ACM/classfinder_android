@@ -16,6 +16,17 @@ public final class ClassfinderContract {
     public static final Uri CONTENT_URI =
         Uri.parse("content://" + AUTHORITY);
 
+    private static final String TERM_SUFFIX = "currentTerm";
+
+    public static final Uri CURRENT_TERM_URI =
+        Uri.withAppendedPath(CONTENT_URI,
+                             TERM_SUFFIX);
+
+    public static final String TERM_ITEM_CONTENT_TYPE =
+        ContentResolver.CURSOR_ITEM_BASE_TYPE
+        + BASE_TYPE
+        + TERM_SUFFIX;
+
     public static final class CourseContract {
 
         private static final String SUFFIX = "courses";
