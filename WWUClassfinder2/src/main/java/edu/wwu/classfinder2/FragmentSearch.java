@@ -1,5 +1,6 @@
 package edu.wwu.classfinder2;
 
+import android.animation.LayoutTransition;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -52,7 +53,6 @@ public class FragmentSearch extends Fragment {
         for (int i = 0; i < 100; i++){
             Course c = new Course();
             c.setId(i);
-            c.setYear(2013);
             c.setName("BLABLABLA " + Integer.toString(i));
             c.setCourseNumber(i);
             c.setCrn(1000 + i);
@@ -163,6 +163,10 @@ public class FragmentSearch extends Fragment {
             this.setOrientation(LinearLayout.VERTICAL);
             this.setDividerDrawable(getResources().getDrawable(android.R.drawable.divider_horizontal_bright));
             this.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+            LayoutTransition lt = new LayoutTransition();
+            lt.disableTransitionType(LayoutTransition.DISAPPEARING);
+            lt.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+            this.setLayoutTransition(lt);
 
             LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0);
 
@@ -187,10 +191,12 @@ public class FragmentSearch extends Fragment {
 
         private void addItem(String text) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.fragment_search_item, this, false);
+            final LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.fragment_search_item, this, false);
 
             final TextView tv = (TextView) newView.findViewById(R.id.search_item_text);
             tv.setText(text);
+
+            final SearchLayout hi = this;
 
             tv.setOnClickListener(new OnClickListener() {
                 @Override

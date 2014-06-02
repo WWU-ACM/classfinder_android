@@ -16,6 +16,17 @@ public final class ClassfinderContract {
     public static final Uri CONTENT_URI =
         Uri.parse("content://" + AUTHORITY);
 
+    private static final String TERM_SUFFIX = "currentTerm";
+
+    public static final Uri CURRENT_TERM_URI =
+        Uri.withAppendedPath(CONTENT_URI,
+                             TERM_SUFFIX);
+
+    public static final String TERM_ITEM_CONTENT_TYPE =
+        ContentResolver.CURSOR_ITEM_BASE_TYPE
+        + BASE_TYPE
+        + TERM_SUFFIX;
+
     public static final class CourseContract {
 
         private static final String SUFFIX = "courses";
@@ -47,13 +58,12 @@ public final class ClassfinderContract {
         public static final String CAPACITY     = "_capacity";
         public static final String ENROLLED     = "_enrolled";
         public static final String CREDITS      = "_credits";
-        public static final String YEAR         = "_year";
-        public static final String QUARTER      = "_quarter";
+        public static final String TERM         = "_term";
 
         public static final String[] PROJECTION_ALL =
         {_ID, CRN, DEPARTMENT, COURSENUMBER,
          NAME, INSTRUCTOR, SCHEDULE, CAPACITY,
-         ENROLLED, CREDITS, YEAR, QUARTER};
+         ENROLLED, CREDITS, TERM};
 
         public static final String SORT_ORDER_DEFAULT =
             DEPARTMENT + ", " + COURSENUMBER + " ASC";
