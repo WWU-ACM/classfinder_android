@@ -1,7 +1,11 @@
 package edu.wwu.classfinder2.data;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import android.content.ContentValues;
 import android.content.Context;
+
 import android.database.Cursor;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +28,12 @@ public class CourseDbHandler {
     // Database Name
     private static final String DATABASE_NAME = "courses";
 
+    private static final String CREATE_GLOBAL_TABLE =
+        "CREATE TABLE " + GLOBALS.TABLE + " ("
+        + GLOBALS._ID   + " INTEGER PRIMARY KEY,"
+        + GLOBALS.KEY   + " TEXT UNIQUE,"
+        + GLOBALS.VALUE + " TEXT)";
+
     private static final String CREATE_COURSE_TABLE =
         "CREATE TABLE " + CourseContract.TABLE + " ("
         + CourseContract._ID          + " INTEGER PRIMARY KEY, "
@@ -36,10 +46,10 @@ public class CourseDbHandler {
         + CourseContract.CAPACITY     + " INTEGER, "
         + CourseContract.ENROLLED     + " INTEGER, "
         + CourseContract.CREDITS      + " INTEGER, "
-        + CourseContract.YEAR         + " INTEGER, "
-        + CourseContract.QUARTER      + " INTEGER, "
+        + CourseContract.TERM         + " TEXT, "
         + "FOREIGN KEY(" + CourseContract.INSTRUCTOR
-                         + ") REFERENCES " + InstructorContract.TABLE;
+                         + ") REFERENCES " + InstructorContract.TABLE
+        + ")";
 
     private static final String CREATE_INSTRUCTOR_TABLE =
         "CREATE TABLE " + InstructorContract.TABLE + " ("
@@ -71,6 +81,10 @@ public class CourseDbHandler {
         if (mDbHelper == null) {
             mDbHelper.close();
         }
+    }
+
+    public Cursor getCurrentTerm() {
+        return queryForGlobal(GLOBALS.CURRENT_TERM);
     }
 
     public long insertCourse(Course course) {
@@ -129,6 +143,31 @@ public class CourseDbHandler {
         }
     }
 
+    private Cursor queryForGlobal(String key) {
+        return mDb.query(true, // get one result
+                         GLOBALS.TABLE, GLOBALS.PROJECTION,
+                         GLOBALS.WHERE_KEY,
+                         new String[] {key},
+                         null,
+                         null,
+                         null,
+                         "LIMIT 1");
+    }
+
+    private long insertGlobal(String key, String value) {
+        ContentValues values = new ContentValues();
+        values.put(GLOBALS.KEY, key);
+        values.put(GLOBALS.VALUE, value);
+        return mDb.insert(GLOBALS.TABLE, null, values);
+    }
+
+    private int updateGlobal(String key, String value) {
+        ContentValues values = new ContentValues();
+        values.put(GLOBALS.VALUE, value);
+        return mDb.update(GLOBALS.TABLE, values,
+                          GLOBALS.WHERE_KEY, new String[] {key});
+    }
+
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
@@ -139,6 +178,8 @@ public class CourseDbHandler {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_INSTRUCTOR_TABLE);
             db.execSQL(CREATE_COURSE_TABLE);
+            db.execSQL(CREATE_GLOBAL_TABLE);
+            initGlobals(db);
         }
 
         @Override
@@ -152,6 +193,40 @@ public class CourseDbHandler {
                                 int oldVersion,
                                 int newVersion) {
         }
+
+        public void initGlobals(SQLiteDatabase db) {
+            for (Map.Entry<String, String> entry:
+                     GLOBALS.DEFAULTS.entrySet()) {
+                ContentValues values = new ContentValues();
+                values.put(GLOBALS.KEY, entry.getKey());
+                values.put(GLOBALS.VALUE, entry.getValue());
+                db.insert(GLOBALS.TABLE, null, values);
+            }
+        }
+
+    }
+
+    private static class GLOBALS {
+
+        private static final String TABLE = "globals";
+
+        public static final String _ID = "_id";
+        public static final String KEY = "_key";
+        public static final String VALUE = "_value";
+
+        public static final String WHERE_KEY = KEY + " = ?";
+
+        public static final String[] PROJECTION = {VALUE};
+
+        public static final String CURRENT_TERM = "_currentTerm";
+
+        public static final Map<String, String> DEFAULTS;
+
+        static {
+            DEFAULTS = new TreeMap<String, String>();
+            DEFAULTS.put(CURRENT_TERM, "201440");
+        }
+
 
     }
 }

@@ -12,10 +12,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Course {
 
-    public static final int FALL = 0;
-    public static final int WINTER = 1;
-    public static final int SPRING = 2;
-    public static final int SUMMER = 3;
+    public static final int WINTER = 10;
+    public static final int SPRING = 20;
+    public static final int SUMMER = 30;
+    public static final int FALL   = 40;
 
     private long mId = -1;
 
@@ -37,9 +37,7 @@ public class Course {
 
     private int mCredits;
 
-    private int mYear;
-
-    private int mQuarter;
+    private int mTerm;
 
     public Course() {
 
@@ -125,20 +123,12 @@ public class Course {
         this.mCredits = credits;
     }
 
-    public int getYear() {
-        return mYear;
+    public int getTerm() {
+        return mTerm;
     }
 
-    public void setYear(int year) {
-        this.mYear = year;
-    }
-
-    public int getQuarter() {
-        return mQuarter;
-    }
-
-    public void setQuarter(int quarter) {
-        this.mQuarter = quarter;
+    public void setTerm(int term) {
+        this.mTerm = term;
     }
 
     public ContentValues asContentValues() {
@@ -158,8 +148,7 @@ public class Course {
         values.put(CourseContract.CAPACITY, mCapacity);
         values.put(CourseContract.ENROLLED, mEnrolled);
         values.put(CourseContract.CREDITS, mCredits);
-        values.put(CourseContract.YEAR, mYear);
-        values.put(CourseContract.QUARTER, mQuarter);
+        values.put(CourseContract.TERM, mTerm);
 
         return values;
     }
@@ -182,8 +171,7 @@ public class Course {
             .append(mCapacity, oCourse.mCapacity)
             .append(mEnrolled, oCourse.mEnrolled)
             .append(mCredits, oCourse.mCredits)
-            .append(mYear, oCourse.mYear)
-            .append(mQuarter, oCourse.mQuarter)
+            .append(mTerm, oCourse.mTerm)
             .isEquals();
     }
 
@@ -200,8 +188,7 @@ public class Course {
             .append(mCapacity)
             .append(mEnrolled)
             .append(mCredits)
-            .append(mYear)
-            .append(mQuarter)
+            .append(mTerm)
             .toHashCode();
     }
 
@@ -247,13 +234,9 @@ public class Course {
         if (col != -1)
             course.setCredits(cursor.getInt(col));
 
-        col = cursor.getColumnIndex(CourseContract.YEAR);
+        col = cursor.getColumnIndex(CourseContract.TERM);
         if (col != -1)
-            course.setYear(cursor.getInt(col));
-
-        col = cursor.getColumnIndex(CourseContract.QUARTER);
-        if (col != -1)
-            course.setQuarter(cursor.getInt(col));
+            course.setTerm(cursor.getInt(col));
 
         return course;
     }

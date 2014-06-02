@@ -28,6 +28,8 @@ public class CourseProvider extends ContentProvider {
     private static final int COURSE_ID = 2;
     private static final int INSTRUCTOR_LIST = 3;
     private static final int INSTRUCTOR_ID = 4;
+    private static final int CURRENT_TERM = 5;
+
     private static final UriMatcher URI_MATCHER;
 
     static {
@@ -44,6 +46,9 @@ public class CourseProvider extends ContentProvider {
         URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
                            "instructors/#",
                            INSTRUCTOR_ID);
+        URI_MATCHER.addURI(ClassfinderContract.AUTHORITY,
+                           "currentTerm/#",
+                           CURRENT_TERM);
     }
 
     private CourseDbHandler dbHandler;
@@ -65,6 +70,8 @@ public class CourseProvider extends ContentProvider {
                 return InstructorContract.DIR_CONTENT_TYPE;
             case INSTRUCTOR_ID :
                 return InstructorContract.ITEM_CONTENT_TYPE;
+            case CURRENT_TERM :
+                return ClassfinderContract.TERM_ITEM_CONTENT_TYPE;
             default:
                 throw new IllegalArgumentException("Unsupported URI: "
                                                    + uri);
@@ -96,7 +103,7 @@ public class CourseProvider extends ContentProvider {
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = CourseContract.SORT_ORDER_DEFAULT;
                 }
-                ensureYearAndQuarter(builder, selection);
+                ensureTerm(builder, selection);
                 builder.setTables(CourseContract.TABLE);
                 break;
 
@@ -108,6 +115,10 @@ public class CourseProvider extends ContentProvider {
                     sortOrder = InstructorContract.SORT_ORDER_DEFAULT;
                 }
                 builder.setTables(InstructorContract.TABLE);
+                break;
+
+            case CURRENT_TERM :
+
                 break;
 
             default:
@@ -162,55 +173,15 @@ public class CourseProvider extends ContentProvider {
             "Problem while inserting into uri: " + uri);
     }
 
-    private void ensureYearAndQuarter(SQLiteQueryBuilder builder,
-                                      String selection) {
-        Calendar today = null;;
-        if (!selection.contains(CourseContract.YEAR)) {
-            today = Calendar.getInstance();
+    private void ensureTerm(SQLiteQueryBuilder builder,
+                            String selection) {
 
-            builder.appendWhere(CourseContract.YEAR + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(today.get(Calendar.YEAR)));
-        }
-
-        if (!selection.contains(CourseContract.QUARTER)) {
-            if (today == null)
-                today = Calendar.getInstance();
-
-            builder.appendWhere(CourseContract.QUARTER + " = ");
-            builder.appendWhereEscapeString(
-                Integer.toString(
-                    getQuarterForMonth(today.get(Calendar.MONTH))));
+        if (!selection.contains(CourseContract.TERM)) {
+            throw new
+                IllegalArgumentException("Must include "
+                                         + CourseContract.TERM
+                                         + " in the selection clause.");
         }
     }
 
-    private int getQuarterForMonth(int month) {
-        switch (month) {
-            // Leading up to fall
-            case Calendar.JUNE:
-            case Calendar.JULY:
-            case Calendar.AUGUST:
-            case Calendar.SEPTEMBER:
-                return Course.FALL;
-
-            // Leading up to winter
-            case Calendar.OCTOBER:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-            case Calendar.JANUARY:
-                return Course.WINTER;
-
-            // Leading up to spring
-            case Calendar.FEBRUARY:
-            case Calendar.MARCH:
-                return Course.SPRING;
-
-            // Leading up to summer/fall
-            case Calendar.APRIL:
-            case Calendar.MAY:
-                return Course.SUMMER;
-            default:
-                return -1;
-        }
-    }
 }

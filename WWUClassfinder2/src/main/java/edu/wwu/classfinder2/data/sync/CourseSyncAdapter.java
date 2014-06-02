@@ -1,9 +1,14 @@
 package edu.wwu.classfinder2.data.sync;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.accounts.Account;
-
-import android.app.NotificationManager;
 
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -13,22 +18,24 @@ import android.content.SyncResult;
 
 import android.os.Bundle;
 
-import android.support.v4.app.NotificationCompat;
+import android.util.JsonReader;
 
-import edu.wwu.classfinder2.R;
-
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import edu.wwu.classfinder2.data.Course;
 
 public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String URL = "cfinder.mcyamaha.com/test";
+    private static final String BASE_URL =
+        "cfinder.mcyamaha.com";
+
+    private static final String SUBJECT_URL =
+        BASE_URL + "/subjects.php";
+
+    private static final String PROFESSOR_URL =
+        BASE_URL + "/inst.php";
+
+    private static final String QUERY_URL =
+        BASE_URL + "/search.php";
+
     // Global variables
     // Define a variable to contain a content resolver instance
     Context mContext;
@@ -64,35 +71,121 @@ public class CourseSyncAdapter extends AbstractThreadedSyncAdapter {
                               String authority,
                               ContentProviderClient provider,
                               SyncResult syncResult) {
-
-
         try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(URL));
-            StatusLine statusLine = response.getStatusLine();
-            NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.drawable.logo_classfinder)
-                .setContentTitle("Course Sync Adapter");
+            URL url = new URL(SUBJECT_URL);
 
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                builder.setContentText("Got the JSON stub");
-            } else{
-                builder.setContentText("Something bad happened... "
-                                       + "No JSON for us.");
+            HttpURLConnection urlConnection =
+                (HttpURLConnection) url.openConnection();
+            try {
+                JsonReader reader =
+                    new JsonReader(
+                        new InputStreamReader(urlConnection
+                                              .getInputStream()));
+
+                List<String> subjects = readSubjectList(reader);
+            } finally {
+                urlConnection.disconnect();
             }
-            NotificationManager nm =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(1, builder.build());
-
-            response.getEntity().getContent().close();
+        } catch (MalformedURLException e) {
 
         } catch (IOException e) {
-            // FIXME: actually do stuff?
-        } finally {
-
 
         }
+
+    }
+
+    private List<String> readSubjectList(JsonReader reader)
+        throws IOException {
+
+        List<String> subjects = new ArrayList<String>();
+
+        reader.beginArray();
+        while (reader.hasNext()) {
+            subjects.add(readSubject(reader));
+        }
+        reader.endArray();
+
+        return subjects;
+    }
+
+    private String readSubject(JsonReader reader)
+        throws IOException {
+
+        String subject = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("abbreviation")) {
+                subject = reader.nextString();
+            } else {
+                reader.nextString();
+            }
+        }
+        reader.endObject();
+        return subject;
+    }
+
+    private List<Course> readCourseList(JsonReader reader)
+        throws IOException {
+
+        List<Course> courses = new ArrayList<Course>();
+
+        reader.beginArray();
+        while (reader.hasNext()) {
+            courses.add(readCourse(reader));
+        }
+        reader.endArray();
+
+        return courses;
+    }
+
+    private Course readCourse(JsonReader reader) throws IOException {
+        Course course = new Course();
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("crn")) {
+                course.setCrn(reader.nextInt());
+            } else if (name.equals("course")) {
+                String[] subjectAndNumber =
+                    reader.nextString().split(" ");
+                course.setDepartment(subjectAndNumber[0]);
+                course.setCourseNumber(Integer
+                                       .parseInt(subjectAndNumber[1]));
+
+            } else if (name.equals("name")) {
+                course.setName(reader.nextString());
+
+            } else if (name.equals("proff")) {
+                reader.nextString();
+                // This needs to actually look-up the professor name
+                // somehow.
+                // course.setInstructor(reader.nextString());
+
+            } else if (name.startsWith("schedule")) {
+                reader.nextString();
+                // This needs to actually handle multiple meetings,
+                // and parsing the strings into meeting objects etc.
+                //course.setSchedule(reader.nextString());
+
+            } else if (name.equals("cap")) {
+                course.setCapacity(reader.nextInt());
+
+            } else if (name.equals("enrl")) {
+                course.setEnrolled(reader.nextInt());
+
+            } else if (name.equals("credits")) {
+                course.setCredits(reader.nextInt());
+
+            } else {
+                reader.nextString();
+            }
+        }
+        reader.endObject();
+
+        return course;
     }
 
 }
