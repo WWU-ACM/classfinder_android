@@ -42,3 +42,14 @@ burden of creating a schedule each quarter.
   Classfinder website
 - The data is extracted by scraping the broken HTML returned by
   Classfinder
+
+
+# Final Product
+
+We made significant progress on this app. On the front end, the main
+interface elements are all in place.  A set of custom view elements is
+still needed to implement the envisioned scheduling mechanism. The
+back-end infrastructure is still not fully functional, and it also
+needs to be hooked up to the front-end. The server-side API provides a
+basic wrapper around the classfinder site, however more work remains
+to be done to provide the data in a cleaner form.
