@@ -1,5 +1,14 @@
 package edu.wwu.classfinder2.data.sync;
 
+import android.accounts.Account;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.SyncResult;
+import android.os.Bundle;
+import android.util.JsonReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -7,16 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.accounts.Account;
-
-import android.content.AbstractThreadedSyncAdapter;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.SyncResult;
-
-import android.os.Bundle;
 
 import android.util.JsonReader;
 

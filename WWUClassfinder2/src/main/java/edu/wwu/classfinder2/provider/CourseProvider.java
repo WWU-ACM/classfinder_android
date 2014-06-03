@@ -1,23 +1,16 @@
 package edu.wwu.classfinder2.provider;
 
-import java.util.Calendar;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
-
 import android.database.Cursor;
 import android.database.SQLException;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-
 import android.net.Uri;
-
 import android.text.TextUtils;
 
-import edu.wwu.classfinder2.data.Course;
 import edu.wwu.classfinder2.data.CourseDbHandler;
 import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 import edu.wwu.classfinder2.provider.ClassfinderContract.InstructorContract;
@@ -128,8 +121,8 @@ public class CourseProvider extends ContentProvider {
 
         SQLiteDatabase db = dbHandler.getDatabase();
         return builder.query(db, projection,
-                             selection, selectionArgs,
-                             null, null, sortOrder);
+                selection, selectionArgs,
+                null, null, sortOrder);
     }
 
     @Override
@@ -173,14 +166,16 @@ public class CourseProvider extends ContentProvider {
             "Problem while inserting into uri: " + uri);
     }
 
+
     private void ensureTerm(SQLiteQueryBuilder builder,
                             String selection) {
-
-        if (!selection.contains(CourseContract.TERM)) {
-            throw new
-                IllegalArgumentException("Must include "
-                                         + CourseContract.TERM
-                                         + " in the selection clause.");
+        if (selection != null) {
+            if (!selection.contains(CourseContract.TERM)) {
+                throw new
+                        IllegalArgumentException("Must include "
+                        + CourseContract.TERM
+                        + " in the selection clause.");
+            }
         }
     }
 

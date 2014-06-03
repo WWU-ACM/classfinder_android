@@ -1,14 +1,12 @@
 package edu.wwu.classfinder2.data;
 
 import android.content.ContentValues;
-
 import android.database.Cursor;
-
-import edu.wwu.classfinder2.data.Schedule;
-import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 
 public class Course {
 
@@ -142,7 +140,8 @@ public class Course {
         values.put(CourseContract.DEPARTMENT, mDepartment);
         values.put(CourseContract.COURSENUMBER, mCourseNumber);
         values.put(CourseContract.NAME, mName);
-        mInstructor.asContentValues(values);
+        values.put(CourseContract.INSTRUCTOR, mInstructor.getId());
+        //mInstructor.asContentValues(values);
         values.put(CourseContract.SCHEDULE,
                    mSchedule != null ? mSchedule.asString() : "");
         values.put(CourseContract.CAPACITY, mCapacity);

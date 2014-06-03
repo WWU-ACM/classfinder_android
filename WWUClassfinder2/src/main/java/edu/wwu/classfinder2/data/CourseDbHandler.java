@@ -11,10 +11,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import edu.wwu.classfinder2.provider
-    .ClassfinderContract.CourseContract;
-import edu.wwu.classfinder2.provider
-    .ClassfinderContract.InstructorContract;
+import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
+import edu.wwu.classfinder2.provider.ClassfinderContract.InstructorContract;
 
 public class CourseDbHandler {
 
@@ -36,7 +34,7 @@ public class CourseDbHandler {
 
     private static final String CREATE_COURSE_TABLE =
         "CREATE TABLE " + CourseContract.TABLE + " ("
-        + CourseContract._ID          + " INTEGER PRIMARY KEY, "
+        + CourseContract._ID          + " INTEGER PRIMARY KEY AUTOINCREMENT, "
         + CourseContract.CRN          + " INTEGER, "
         + CourseContract.DEPARTMENT   + " TEXT, "
         + CourseContract.COURSENUMBER + " INTEGER, "
@@ -53,9 +51,9 @@ public class CourseDbHandler {
 
     private static final String CREATE_INSTRUCTOR_TABLE =
         "CREATE TABLE " + InstructorContract.TABLE + " ("
-        + InstructorContract._ID   + " INTEGER PRIMARY KEY, "
+        + InstructorContract._ID   + " INTEGER PRIMARY KEY AUTOINCREMENT, "
         + InstructorContract.FIRST_NAME + " TEXT, "
-        + InstructorContract.LAST_NAME + " TEXT";
+        + InstructorContract.LAST_NAME + " TEXT )";
 
     public CourseDbHandler(Context context) {
         this.mContext = context;
@@ -132,7 +130,7 @@ public class CourseDbHandler {
                       null, // No group by clause
                       null, // Same, but mandatory because no grouping
                       null, // Default sort order
-                      "LIMIT 1",
+                      "1",
                       null); // No cancellation signal
 
         if (results.getCount() == 1) {
