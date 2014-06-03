@@ -2,10 +2,7 @@ package edu.wwu.classfinder2;
 
 import android.animation.LayoutTransition;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,11 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
-
-import edu.wwu.classfinder2.data.Course;
-import edu.wwu.classfinder2.data.CourseDbHandler;
-import edu.wwu.classfinder2.data.Instructor;
-import edu.wwu.classfinder2.provider.ClassfinderContract;
 
 public class FragmentSearch extends Fragment {
 
@@ -40,6 +32,8 @@ public class FragmentSearch extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        /*
         getActivity().deleteDatabase("courses");
 
         CourseDbHandler cdh = new CourseDbHandler(getActivity());
@@ -75,7 +69,7 @@ public class FragmentSearch extends Fragment {
         ContentResolver resolver = getActivity().getContentResolver();
         Cursor d = resolver.query(ClassfinderContract.CourseContract.CONTENT_URI, null, null, null, null);
         Log.d("HI d", Integer.toString(d.getCount()));
-
+        */
     }
 
     @Override
@@ -202,6 +196,7 @@ public class FragmentSearch extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Log.d("HI", "CLICKED");
+                    SearchLayout.this.setVisibility(View.GONE);
                 }
             });
 

@@ -11,9 +11,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.util.Calendar;
-
-import edu.wwu.classfinder2.data.Course;
 import edu.wwu.classfinder2.data.CourseDbHandler;
 import edu.wwu.classfinder2.provider.ClassfinderContract.CourseContract;
 import edu.wwu.classfinder2.provider.ClassfinderContract.InstructorContract;
